@@ -1,9 +1,0 @@
-target = pcd.lab03.jpfmix.TestVerifyAPIRandom
-
-classpath=build/classes/java/main
-
-sourcepath=src/main/java
-
-listener=gov.nasa.jpf.listener.PreciseRaceDetector
-
-report.console.property_violation=error,trace

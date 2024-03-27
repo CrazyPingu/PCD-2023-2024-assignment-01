@@ -52,7 +52,7 @@ val allFileButBuildAndHide = File(rootProject.rootDir.path)
     .toTypedArray()
 
 // Path in which the search of other jpf file starts
-val searchingPath = "/src/main/jpf/"
+val searchingPath = "/jpf/jpftests/"
 
 // Output for all tasks
 val noOutput = ByteArrayOutputStream()
@@ -75,7 +75,8 @@ File(rootProject.rootDir.path + searchingPath).listFiles()
                     languageVersion.set(JavaLanguageVersion.of(8))
                 }
             )
-            main = "-jar"
+            setMain("-jar")
+//            main = "-jar"
             args = listOf("./jpf-runner/build/RunJPF.jar", ".${searchingPath}" + file.name)
         }
         val capitalizedName = it.nameWithoutExtension.capitalize()
