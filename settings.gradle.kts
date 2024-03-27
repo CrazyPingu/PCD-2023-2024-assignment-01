@@ -10,5 +10,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
 
-rootProject.name = "pcd-2023-2024"
-include("app")
+rootProject.name = "PCD-2023-2024-assignment-01"
+include("app", "jpf")
