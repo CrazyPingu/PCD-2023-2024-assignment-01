@@ -11,18 +11,18 @@ import pcd.ass01.simengineseq.Percept;
 
 public class RoadsEnv extends AbstractEnvironment {
 		
-	private static final int MIN_DIST_ALLOWED = 5;
-	private static final int CAR_DETECTION_RANGE = 30;
-	private static final int SEM_DETECTION_RANGE = 30;
+	protected static final int MIN_DIST_ALLOWED = 5;
+	protected static final int CAR_DETECTION_RANGE = 30;
+	protected static final int SEM_DETECTION_RANGE = 30;
 	
 	/* list of roads */
-	private List<Road> roads;
+	protected List<Road> roads;
 
 	/* traffic lights */
-	private List<TrafficLight> trafficLights;
+	protected List<TrafficLight> trafficLights;
 	
-	/* cars situated in the environment */	
-	private HashMap<String, CarAgentInfo> registeredCars;
+	/* cars situated in the environment */
+	protected HashMap<String, CarAgentInfo> registeredCars;
 
 
 	public RoadsEnv() {
