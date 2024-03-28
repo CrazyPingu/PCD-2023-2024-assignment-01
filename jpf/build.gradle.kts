@@ -19,6 +19,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     implementation(files("lib/jpf-classes.jar"))
     implementation(files("lib/jpf-annotations.jar"))
+    implementation(files("build/"))
 }
 
 tasks.getByName<Test>("test") {
@@ -75,9 +76,27 @@ File(rootProject.rootDir.path + searchingPath).listFiles()
                     languageVersion.set(JavaLanguageVersion.of(8))
                 }
             )
-            setMain("-jar")
+//            setMain("-jar")
+            val targetLine = file.readLines().find { line -> line.startsWith("target=") }
+            val targetValue = targetLine?.substringAfter('=')?.trim()
+            val classpathLine = file.readLines().find { line -> line.startsWith("classpath=") }
+            val classpathValue = classpathLine?.substringAfter('=')?.trim()
+//            var mainPath = classpathValue?.replace('/', File.separatorChar) + " " + targetValue
+            var mainPath = classpathValue?.replace('/', File.separatorChar) + File.separatorChar + targetValue
+            mainPath = mainPath.replace('/', File.separatorChar).replace('.', File.separatorChar)
+
+//            println("Main path: ${mainPath}")
+//            println("Classpath value: ${mainPath.replace('/', File.separatorChar).replace('.', File.separatorChar)}")
+//            mainClass.set(targetValue)
+
+            mainClass.set("-jar")
+
+//            workingDir = File(rootProject.rootDir.path)
+
 //            main = "-jar"
-            args = listOf("./jpf-runner/build/RunJPF.jar", ".${searchingPath}" + file.name)
+            val searchingPath2 = "/jpftests/"
+//            args = listOf("./jpf-runner/build/RunJPF.jar", ".${searchingPath}" + file.name)
+            args = listOf("./jpf-runner/build/RunJPF.jar", ".${searchingPath2}" + file.name)
         }
         val capitalizedName = it.nameWithoutExtension.capitalize()
         val jpfVerification by launchVerificationTask("run${capitalizedName}Verify", it)
