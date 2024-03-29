@@ -1,8 +1,6 @@
 package pcd.ass01.simtrafficexamplesconc;
 
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadMassiveNumberOfCars;
-
-public class ConcurrentRunTrafficSimulationMassiveTest {
+public class RunConcurrentTrafficSimulationMassiveTest {
 
 	public static void main(String[] args) {		
 

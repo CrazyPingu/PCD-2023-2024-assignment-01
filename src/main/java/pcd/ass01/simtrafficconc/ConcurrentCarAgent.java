@@ -40,10 +40,10 @@ public abstract class ConcurrentCarAgent extends CarAgent {
         /* act */
 
         try {
-            if (monitor.isStepDone()) {
-                selectedAction.ifPresent(action -> env.doAction(getId(), action));
-                monitor.agentStep();
-            }
+//            if (monitor.isStepDone()) {
+            selectedAction.ifPresent(action -> env.doAction(getId(), action));
+            monitor.agentStep();
+//            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

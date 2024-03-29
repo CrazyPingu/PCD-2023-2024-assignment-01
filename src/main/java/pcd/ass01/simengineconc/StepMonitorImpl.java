@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Implementation of {@link StepMonitor} like a barrier.
+ * Implementation of {@link StepMonitor} that act like a barrier.
  */
 public class StepMonitorImpl implements StepMonitor {
 
@@ -28,9 +28,11 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             this.mutex.lock();
             this.count++;
+            System.out.println("Agent count: " + this.count);
             while (this.count < this.numberOfAgents) {
                 this.agentsStep.await();
             }
+            System.out.println("Agent step");
             this.agentsStepAll.signal();
             this.envStep.signal();
         } finally {
@@ -56,9 +58,9 @@ public class StepMonitorImpl implements StepMonitor {
     public void waitAgentsStep() throws InterruptedException {
         try {
             this.mutex.lock();
-            while (this.count < this.numberOfAgents) {
-                this.agentsStepAll.await();
-            }
+//            while (this.count < this.numberOfAgents) {
+            this.agentsStepAll.await();
+//            }
         } finally {
             this.mutex.unlock();
         }

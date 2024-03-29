@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * Base class for defining concrete concurrent simulations
- *
  */
 public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
@@ -25,7 +24,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         List<Thread> agentsThreads = new ArrayList<>();
 
         env.init();
-        for (AbstractAgent a: agents) {
+        for (AbstractAgent a : agents) {
             a.init(env);
             agentsThreads.add(new ThreadCarAgent(a, dt, numSteps));
         }
@@ -44,8 +43,10 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
             env.step(dt);
 
             // start agents threads
-            for (Thread thread: agentsThreads) {
-                thread.start();
+            if (nSteps == 0) {
+                for (Thread thread : agentsThreads) {
+                    thread.start();
+                }
             }
             try {
                 monitor.waitAgentsStep();
