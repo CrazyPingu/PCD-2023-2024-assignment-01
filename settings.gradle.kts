@@ -11,4 +11,3 @@ plugins {
 }
 
 rootProject.name = "PCD-2023-2024-assignment-01"
-include("app", "jpf")

@@ -1,8 +1,8 @@
 target=pcd.ass01.simtrafficexamplesconc.ConcurrentRunTrafficSimulationMassiveTest
 
-classpath=app/build/classes/java/main
+classpath=build/classes/java/main
 
-sourcepath=app/src/main/java
+sourcepath=src/main/java
 
 listener=gov.nasa.jpf.listener.PreciseRaceDetector
 
