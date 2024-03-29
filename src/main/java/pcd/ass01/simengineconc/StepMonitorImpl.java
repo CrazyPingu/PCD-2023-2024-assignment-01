@@ -27,14 +27,25 @@ public class StepMonitorImpl implements StepMonitor {
     public void agentStep() throws InterruptedException {
         try {
             this.mutex.lock();
-            this.count++;
-            System.out.println("Agent count: " + this.count);
+
+            count++;
+            if (this.count == this.numberOfAgents) {
+                this.envStep.signal();
+                this.agentsStepAll.signal();
+            }
             while (this.count < this.numberOfAgents) {
                 this.agentsStep.await();
             }
-            System.out.println("Agent step");
-            this.agentsStepAll.signal();
-            this.envStep.signal();
+
+//            this.count++;
+//            System.out.println(this.count);
+//            while (this.count <= this.numberOfAgents) {
+//                this.agentsStep.await();
+//            }
+//            System.out.println("Agent step done");
+//            this.agentsStepAll.signal();
+//            this.envStep.signal();
+
         } finally {
             this.mutex.unlock();
         }
@@ -44,9 +55,13 @@ public class StepMonitorImpl implements StepMonitor {
     public void nextStep() throws InterruptedException {
         try {
             this.mutex.lock();
+            System.out.println("env step start");
             while (this.count < this.numberOfAgents) {
+                System.out.println("env step await - " + this.count);
                 this.envStep.await();
+                System.out.println("env step await - " + this.count);
             }
+//            System.out.println("env step done");
             this.count = 0;
             this.agentsStep.signalAll();
         } finally {
@@ -60,6 +75,8 @@ public class StepMonitorImpl implements StepMonitor {
             this.mutex.lock();
 //            while (this.count < this.numberOfAgents) {
             this.agentsStepAll.await();
+            //this.envStep.signal();
+            System.out.println("--signal-> env");
 //            }
         } finally {
             this.mutex.unlock();

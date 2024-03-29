@@ -3,6 +3,7 @@ package pcd.ass01.simtrafficconc;
 import pcd.ass01.simengineconc.MonitoredStep;
 import pcd.ass01.simengineconc.StepMonitor;
 import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.simtrafficbase.TrafficLight;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ConcurrentRoadsEnv extends RoadsEnv implements MonitoredStep {
 	
 	@Override
 	public void step(int dt) {
-		for (pcd.ass01.simtrafficbase.TrafficLight tl: trafficLights) {
+		for (TrafficLight tl: trafficLights) {
 			tl.step(dt);
 		}
 
