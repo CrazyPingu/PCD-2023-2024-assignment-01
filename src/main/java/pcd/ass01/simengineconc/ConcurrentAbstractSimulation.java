@@ -1,5 +1,6 @@
 package pcd.ass01.simengineconc;
 
+import pcd.ass01.simengineseq.AbstractAgent;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficconc.ThreadCarAgent;
 
@@ -24,7 +25,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         List<Thread> agentsThreads = new ArrayList<>();
 
         env.init();
-        for (var a: agents) {
+        for (AbstractAgent a: agents) {
             a.init(env);
             agentsThreads.add(new ThreadCarAgent(a, dt, numSteps));
         }
@@ -43,7 +44,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
             env.step(dt);
 
             // start agents threads
-            for (var thread: agentsThreads) {
+            for (Thread thread: agentsThreads) {
                 thread.start();
             }
             try {

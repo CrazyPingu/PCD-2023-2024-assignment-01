@@ -20,7 +20,7 @@ public class ConcurrentRoadsEnv extends RoadsEnv implements MonitoredStep {
 	
 	@Override
 	public void step(int dt) {
-		for (var tl: trafficLights) {
+		for (pcd.ass01.simtrafficbase.TrafficLight tl: trafficLights) {
 			tl.step(dt);
 		}
 

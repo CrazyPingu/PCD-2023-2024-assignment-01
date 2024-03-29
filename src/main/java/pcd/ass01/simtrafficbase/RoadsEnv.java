@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import pcd.ass01.simengineseq.AbstractEnvironment;
 import pcd.ass01.simengineseq.Action;
@@ -34,14 +35,14 @@ public class RoadsEnv extends AbstractEnvironment {
 	
 	@Override
 	public void init() {
-		for (var tl: trafficLights) {
+		for (TrafficLight tl: trafficLights) {
 			tl.init();
 		}
 	}
 	
 	@Override
 	public void step(int dt) {
-		for (var tl: trafficLights) {
+		for (TrafficLight tl: trafficLights) {
 			tl.step(dt);
 		}
 	}
@@ -99,33 +100,30 @@ public class RoadsEnv extends AbstractEnvironment {
 	
 	@Override
 	public void doAction(String agentId, Action act) {
-		switch (act) {
-		case MoveForward mv: {
+		if (act instanceof MoveForward) {
+			MoveForward mv = (MoveForward) act;
 			CarAgentInfo info = registeredCars.get(agentId);
 			Road road = info.getRoad();
 			Optional<CarAgentInfo> nearestCar = getNearestCarInFront(road, info.getPos(), CAR_DETECTION_RANGE);
-			
-			if (!nearestCar.isEmpty()) {
+
+			if (nearestCar.isPresent()) {
 				double dist = nearestCar.get().getPos() - info.getPos();
-				if (dist > mv.distance() + MIN_DIST_ALLOWED) {
-					info.updatePos(info.getPos() + mv.distance());
+				if (dist > mv.getDistance() + MIN_DIST_ALLOWED) {
+					info.updatePos(info.getPos() + mv.getDistance());
 				}
 			} else {
-				info.updatePos(info.getPos() + mv.distance());
+				info.updatePos(info.getPos() + mv.getDistance());
 			}
 
 			if (info.getPos() > road.getLen()) {
 				info.updatePos(0);
 			}
-			break;
-		}
-		default: break;
 		}
 	}
 	
 	
 	public List<CarAgentInfo> getAgentInfo(){
-		return this.registeredCars.entrySet().stream().map(el -> el.getValue()).toList();
+		return this.registeredCars.entrySet().stream().map(el -> el.getValue()).collect(Collectors.toList());
 	}
 
 	public List<Road> getRoads(){

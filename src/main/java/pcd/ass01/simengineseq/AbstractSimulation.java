@@ -62,7 +62,7 @@ public abstract class AbstractSimulation {
 		int t = t0;
 
 		env.init();
-		for (var a: agents) {
+		for (AbstractAgent a: agents) {
 			a.init(env);
 		}
 
@@ -78,7 +78,7 @@ public abstract class AbstractSimulation {
 			/* make a step */
 			
 			env.step(dt);
-			for (var agent: agents) {
+			for (AbstractAgent agent: agents) {
 				agent.step(dt);
 			}
 			t += dt;
@@ -133,13 +133,13 @@ public abstract class AbstractSimulation {
 	}
 	
 	protected void notifyReset(int t0, List<AbstractAgent> agents, AbstractEnvironment env) {
-		for (var l: listeners) {
+		for (SimulationListener l: listeners) {
 			l.notifyInit(t0, agents, env);
 		}
 	}
 
 	protected void notifyNewStep(int t, List<AbstractAgent> agents, AbstractEnvironment env) {
-		for (var l: listeners) {
+		for (SimulationListener l: listeners) {
 			l.notifyStepDone(t, agents, env);
 		}
 	}

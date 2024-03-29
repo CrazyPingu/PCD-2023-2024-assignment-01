@@ -44,12 +44,12 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 	@Override
 	public void decide(int dt) {
 		switch (state) {
-		case CarAgentState.STOPPED:
+		case STOPPED:
 			if (!detectedNearCar()) {
 				state = CarAgentState.ACCELERATING;
 			}
 			break;
-		case CarAgentState.ACCELERATING:
+		case ACCELERATING:
 			if (detectedNearCar()) {
 				state = CarAgentState.DECELERATING_BECAUSE_OF_A_CAR;
 			} else if (detectedRedOrOrgangeSemNear()) {
@@ -61,14 +61,14 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 				}			
 			}
 			break;
-		case CarAgentState.MOVING_CONSTANT_SPEED:
+		case MOVING_CONSTANT_SPEED:
 			if (detectedNearCar()) {
 				state = CarAgentState.DECELERATING_BECAUSE_OF_A_CAR;
 			} else if (detectedRedOrOrgangeSemNear()) {
 				state = CarAgentState.DECELERATING_BECAUSE_OF_A_NOT_GREEN_SEM;
 			}
 			break;
-		case CarAgentState.DECELERATING_BECAUSE_OF_A_CAR:
+		case DECELERATING_BECAUSE_OF_A_CAR:
 			this.currentSpeed -= deceleration * dt;
 			if (this.currentSpeed <= 0) {
 				state =  CarAgentState.STOPPED;
@@ -77,7 +77,7 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 				waitingTime = 0;
 			}
 			break;
-		case CarAgentState.DECELERATING_BECAUSE_OF_A_NOT_GREEN_SEM:
+		case DECELERATING_BECAUSE_OF_A_NOT_GREEN_SEM:
 			this.currentSpeed -= deceleration * dt;
 			if (this.currentSpeed <= 0) {
 				state =  CarAgentState.WAITING_FOR_GREEN_SEM;
@@ -85,13 +85,13 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 				state = CarAgentState.ACCELERATING;
 			}
 			break;
-		case CarAgentState.WAIT_A_BIT:
+		case WAIT_A_BIT:
 			waitingTime += dt;
 			if (waitingTime > MAX_WAITING_TIME) {
 				state = CarAgentState.ACCELERATING;
 			}
 			break;
-		case CarAgentState.WAITING_FOR_GREEN_SEM:
+		case WAITING_FOR_GREEN_SEM:
 			if (detectedGreenSem()) {
 				state = CarAgentState.ACCELERATING;
 			}
@@ -106,7 +106,7 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 		
 	private boolean detectedNearCar() {
 		Optional<CarAgentInfo> car = currentPercept.nearestCarInFront();
-		if (car.isEmpty()) {
+		if (!car.isPresent()) {
 			return false;
 		} else {
 			double dist = car.get().getPos() - currentPercept.roadPos();
@@ -116,7 +116,7 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 	
 	private boolean detectedRedOrOrgangeSemNear() {
 		Optional<TrafficLightInfo> sem = currentPercept.nearestSem();
-		if (sem.isEmpty() || sem.get().sem().isGreen()) {
+		if (!sem.isPresent() || sem.get().sem().isGreen()) {
 			return false;
 		} else {
 			double dist = sem.get().roadPos() - currentPercept.roadPos();
@@ -127,12 +127,12 @@ public class CarAgentExtended extends ConcurrentCarAgent {
 
 	private boolean detectedGreenSem() {
 		Optional<TrafficLightInfo> sem = currentPercept.nearestSem();
-		return (!sem.isEmpty() && sem.get().sem().isGreen());
+		return (sem.isPresent() && sem.get().sem().isGreen());
 	}
 	
 	private boolean carFarEnough() {
 		Optional<CarAgentInfo> car = currentPercept.nearestCarInFront();
-		if (car.isEmpty()) {
+		if (!car.isPresent()) {
 			return true;
 		} else {
 			double dist = car.get().getPos() - currentPercept.roadPos();

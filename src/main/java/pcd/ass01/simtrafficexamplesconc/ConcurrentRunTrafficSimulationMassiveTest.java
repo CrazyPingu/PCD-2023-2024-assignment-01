@@ -9,7 +9,7 @@ public class ConcurrentRunTrafficSimulationMassiveTest {
 		int numCars = 5000;
 		int nSteps = 100;
 		
-		var simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars);
+		ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars);
 		simulation.setup();
 		
 		log("Running the simulation: " + numCars + " cars, for " + nSteps + " steps ...");
