@@ -13,15 +13,12 @@ public class CarAgentThread extends Thread {
         this.car = car;
         this.dt = dt;
         this.numberOfSteps = numberOfSteps;
-        System.out.println("Car " + car.getId() + " created");
     }
 
     @Override
     public void run() {
         while (steps < numberOfSteps) {
-            System.out.println("  " + car.getId() + " step start " + steps);
             car.step(dt);
-            System.out.println("  " + car.getId() + " step finish " + steps);
             steps++;
         }
     }

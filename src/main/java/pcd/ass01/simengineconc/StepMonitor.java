@@ -1,5 +1,9 @@
 package pcd.ass01.simengineconc;
 
+import pcd.ass01.simengineseq.Action;
+
+import java.util.Optional;
+
 /**
  *
  * Monitor for concurrent simulation.
@@ -9,42 +13,37 @@ public interface StepMonitor {
 
     /**
      *
-     * Notify the end of the current step by an agent.
+     * Execute the step of a concurrent agent.
      *
+     * @param selectedAction the action selected by the agent
      * @throws InterruptedException
      */
-    void agentStep() throws InterruptedException;
+    void agentStep(Callback selectedAction) throws InterruptedException;
 
     /**
      *
-     * Notify the end of the current step by all agents.
+     * Execute the step of the environment.
      *
+     * @param step the action to be executed by the environment
      * @throws InterruptedException
      */
-    void nextStep() throws InterruptedException;
+    void nextStep(Callback step) throws InterruptedException;
 
     /**
      *
-     * Wait for the end of the current step by all agents.
+     * Wait for the end of the current step by all agents and do an action.
      *
+     * @param action the action to be executed after the end of the step by all agents
      * @throws InterruptedException
      */
-    void waitAgentsStep() throws InterruptedException;
-
-//    /**
-//     *
-//     * Check if the buffer is empty.
-//     *
-//     * @throws InterruptedException
-//     */
-//    boolean isEmpty() throws InterruptedException;
+    void waitAgentsStep(Callback action) throws InterruptedException;
 
     /**
      *
-     * Check if the step has been completed by all the agents.
+     * Notify all agents.
      *
      * @throws InterruptedException
      */
-    boolean isStepDone() throws InterruptedException;
+    void notifyAllAgents() throws InterruptedException;
 
 }

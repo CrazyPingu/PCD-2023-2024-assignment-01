@@ -11,95 +11,99 @@ public class StepMonitorImpl implements StepMonitor {
 
     private final int numberOfAgents;
     private int count;
+    private boolean continueFlagAgent, continueFlagEnv;
     private final Lock mutex;
     private final Condition agentsStep, envStep, agentsStepAll;
 
     public StepMonitorImpl(int numberOfAgents) {
-        this.numberOfAgents = numberOfAgents;
-        this.count = this.numberOfAgents;
-        this.mutex = new ReentrantLock();
-        this.agentsStep = mutex.newCondition();
-        this.envStep = mutex.newCondition();
-        this.agentsStepAll = mutex.newCondition();
+        this.numberOfAgents = numberOfAgents + 1;
+        count = 0;
+        mutex = new ReentrantLock();
+        agentsStep = mutex.newCondition();
+        envStep = mutex.newCondition();
+        agentsStepAll = mutex.newCondition();
+        continueFlagAgent = continueFlagEnv =false;
     }
 
     @Override
-    public void agentStep() throws InterruptedException {
+    public void agentStep(Callback selectedAction) throws InterruptedException {
         try {
-            this.mutex.lock();
+            mutex.lock();
 
+            continueFlagEnv = true;
+            while (count == 0 || count >= numberOfAgents) {
+                envStep.signal();
+                agentsStep.await();
+            }
+            continueFlagAgent = false;
+            selectedAction.call();
             count++;
-            if (this.count == this.numberOfAgents) {
-                this.envStep.signal();
-                this.agentsStepAll.signal();
-            }
-            while (this.count < this.numberOfAgents) {
-                this.agentsStep.await();
+            while (count < numberOfAgents || !continueFlagAgent) {
+                agentsStepAll.signal();
+                agentsStep.await();
             }
 
-//            this.count++;
-//            System.out.println(this.count);
-//            while (this.count <= this.numberOfAgents) {
-//                this.agentsStep.await();
-//            }
-//            System.out.println("Agent step done");
-//            this.agentsStepAll.signal();
-//            this.envStep.signal();
-
-        } finally {
-            this.mutex.unlock();
-        }
-    }
-
-    @Override
-    public void nextStep() throws InterruptedException {
-        try {
-            this.mutex.lock();
-            System.out.println("env step start");
-            while (this.count < this.numberOfAgents) {
-                System.out.println("env step await - " + this.count);
-                this.envStep.await();
-                System.out.println("env step await - " + this.count);
-            }
-//            System.out.println("env step done");
-            this.count = 0;
-            this.agentsStep.signalAll();
         } finally {
             mutex.unlock();
         }
     }
 
     @Override
-    public void waitAgentsStep() throws InterruptedException {
+    public void nextStep(Callback step) throws InterruptedException {
         try {
-            this.mutex.lock();
-//            while (this.count < this.numberOfAgents) {
-            this.agentsStepAll.await();
-            //this.envStep.signal();
-            System.out.println("--signal-> env");
-//            }
+            mutex.lock();
+
+            step.call();
+
+            count++;
+            while (count < numberOfAgents) {
+                agentsStep.signalAll();
+                envStep.await();
+            }
+            continueFlagEnv = false;
+            while (count != 0 && !continueFlagEnv) {
+                agentsStep.signalAll();
+                envStep.await();
+            }
+            count = 0;
+
         } finally {
-            this.mutex.unlock();
+            mutex.unlock();
         }
     }
-
-//    @Override
-//    public boolean isEmpty() throws InterruptedException {
-//        try {
-//            this.mutex.lock();
-//            return this.count == 0;
-//        } finally {
-//            this.mutex.unlock();
-//        }
-//    }
 
     @Override
-    public boolean isStepDone() throws InterruptedException {
+    public void waitAgentsStep(Callback action) throws InterruptedException {
         try {
-            this.mutex.lock();
-            return count == this.numberOfAgents;
+            mutex.lock();
+
+            while (count < numberOfAgents || continueFlagAgent) {
+                agentsStepAll.await();
+            }
+            action.call();
+            continueFlagAgent = true;
+            envStep.signal();
+
         } finally {
-            this.mutex.unlock();
+            mutex.unlock();
         }
     }
+
+    @Override
+    public void notifyAllAgents() throws InterruptedException {
+        try {
+            mutex.lock();
+
+            continueFlagEnv = true;
+            continueFlagAgent = true;
+            agentsStep.signalAll();
+            envStep.signalAll();
+            agentsStepAll.signalAll();
+
+        } finally {
+            mutex.unlock();
+        }
+    }
+
+
 }

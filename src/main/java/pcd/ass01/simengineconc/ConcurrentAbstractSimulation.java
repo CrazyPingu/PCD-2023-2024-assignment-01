@@ -13,6 +13,10 @@ import java.util.List;
  */
 public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
+    private int t;
+    private int nSteps;
+    private long timePerStep;
+
     @Override
     public void run(int numSteps) {
         StepMonitor monitor = ((MonitoredStep) env).getMonitor();
@@ -20,7 +24,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         startWallTime = System.currentTimeMillis();
 
         /* initialize the env and the agents inside */
-        int t = t0;
+        t = t0;
 
         List<Thread> agentsThreads = new ArrayList<>();
 
@@ -32,40 +36,36 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
         this.notifyReset(t, agents, env);
 
-        long timePerStep = 0;
-        int nSteps = 0;
+        timePerStep = 0;
+        nSteps = 0;
 
         Thread envThread = new EnvThread(env, dt, numSteps);
+
+        for (Thread thread : agentsThreads) {
+            thread.start();
+        }
 
         while (nSteps < numSteps) {
 
             currentWallTime = System.currentTimeMillis();
 
-            /* make a step */
-
-             env.step(dt);
-
-            // start agents threads
+            // start env thread
             if (nSteps == 0) {
-//                envThread.start();
-                for (Thread thread : agentsThreads) {
-                    thread.start();
-                }
+                envThread.start();
             }
+
             try {
-                monitor.waitAgentsStep();
+                monitor.waitAgentsStep(() -> {
+                    t += dt;
+
+                    notifyNewStep(t, agents, env);
+
+                    nSteps++;
+                    timePerStep += System.currentTimeMillis() - currentWallTime;
+                });
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            System.out.println("GLOBAL step: " + nSteps);
-
-            t += dt;
-
-            notifyNewStep(t, agents, env);
-
-            nSteps++;
-            timePerStep += System.currentTimeMillis() - currentWallTime;
 
             if (toBeInSyncWithWallTime) {
                 syncWithWallTime();
@@ -74,6 +74,13 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
         endWallTime = System.currentTimeMillis();
         this.averageTimePerStep = timePerStep / numSteps;
+
+        try {
+            Thread.sleep(1000);
+            monitor.notifyAllAgents();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -4,7 +4,7 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 
 	public static void main(String[] args) {		
 
-		int numCars = 3; //5000;
+		int numCars = 5000;
 		int nSteps = 100;
 		
 		ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars);

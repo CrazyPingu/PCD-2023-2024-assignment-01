@@ -21,12 +21,12 @@ public class ConcurrentRoadsEnv extends RoadsEnv implements MonitoredStep {
 	
 	@Override
 	public void step(int dt) {
-		for (TrafficLight tl: trafficLights) {
-			tl.step(dt);
-		}
-
         try {
-            monitor.nextStep();
+            monitor.nextStep(() -> {
+				for (TrafficLight tl : trafficLights) {
+					tl.step(dt);
+				}
+			});
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
