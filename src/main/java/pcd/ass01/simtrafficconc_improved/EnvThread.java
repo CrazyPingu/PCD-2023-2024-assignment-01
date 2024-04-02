@@ -1,7 +1,7 @@
-package pcd.ass01.simtrafficconc;
+package pcd.ass01.simtrafficconc_improved;
 
 import gov.nasa.jpf.vm.Verify;
-import pcd.ass01.simengineseq.AbstractEnvironment;
+import pcd.ass01.simengineseq_improved.AbstractEnvironment;
 
 public class EnvThread extends Thread {
 

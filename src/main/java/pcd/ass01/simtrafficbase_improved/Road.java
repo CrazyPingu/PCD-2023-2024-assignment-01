@@ -5,8 +5,6 @@ import pcd.ass01.simtrafficbase.P2d;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class Road {
 
 	private double len;

@@ -1,4 +1,4 @@
-target=pcd.ass01.simtrafficexamplesconc.RunConcurrentTrafficSimulationMassiveTest
+target=pcd.ass01.simtrafficexamplesconc_improved.RunConcurrentTrafficSimulationMassiveTest
 
 classpath=build/classes/java/main
 

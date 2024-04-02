@@ -21,7 +21,7 @@ public class RoadsEnv extends AbstractEnvironment {
 	private List<Road> roads;
 
 	/* traffic lights */
-	private List<TrafficLight> trafficLights;
+	protected List<TrafficLight> trafficLights;
 
 	/* cars situated in the environment */
 	private HashMap<String, CarAgentInfo> registeredCars;

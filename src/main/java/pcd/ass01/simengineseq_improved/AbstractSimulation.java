@@ -10,29 +10,29 @@ import java.util.List;
 public abstract class AbstractSimulation {
 
 	/* environment of the simulation */
-	private AbstractEnvironment env;
+	protected AbstractEnvironment env;
 	
 	/* list of the agents */
-	private List<AbstractAgent> agents;
+	protected List<AbstractAgent> agents;
 	
 	/* simulation listeners */
-	private List<SimulationListener> listeners;
+	protected List<SimulationListener> listeners;
 
 	/* logical time step */
-	private int dt;
+	protected int dt;
 	
 	/* initial logical time */
-	private int t0;
+	protected int t0;
 
 	/* in the case of sync with wall-time */
-	private boolean toBeInSyncWithWallTime;
-	private int nStepsPerSec;
+	protected boolean toBeInSyncWithWallTime;
+	protected int nStepsPerSec;
 	
 	/* for time statistics*/
-	private long currentWallTime;
-	private long startWallTime;
-	private long endWallTime;
-	private long averageTimePerStep;
+	protected long currentWallTime;
+	protected long startWallTime;
+	protected long endWallTime;
+	protected long averageTimePerStep;
 
 
 	protected AbstractSimulation() {
@@ -142,14 +142,14 @@ public abstract class AbstractSimulation {
 	public void addSimulationListener(SimulationListener l) {
 		this.listeners.add(l);
 	}
-	
-	private void notifyReset(int t0, List<AbstractAgent> agents, AbstractEnvironment env) {
+
+	protected void notifyReset(int t0, List<AbstractAgent> agents, AbstractEnvironment env) {
 		for (SimulationListener l: listeners) {
 			l.notifyInit(t0, agents, env);
 		}
 	}
 
-	private void notifyNewStep(int t, List<AbstractAgent> agents, AbstractEnvironment env) {
+	protected void notifyNewStep(int t, List<AbstractAgent> agents, AbstractEnvironment env) {
 		for (SimulationListener l: listeners) {
 			l.notifyStepDone(t, agents, env);
 		}
@@ -157,7 +157,7 @@ public abstract class AbstractSimulation {
 
 	/* method to sync with wall time at a specified step rate */
 	
-	private void syncWithWallTime() {
+	protected void syncWithWallTime() {
 		try {
 			long newWallTime = System.currentTimeMillis();
 			long delay = 1000 / this.nStepsPerSec;

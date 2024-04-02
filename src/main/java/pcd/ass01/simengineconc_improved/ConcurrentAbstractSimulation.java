@@ -1,10 +1,12 @@
-package pcd.ass01.simengineconc;
+package pcd.ass01.simengineconc_improved;
 
 import gov.nasa.jpf.vm.Verify;
-import pcd.ass01.simengineseq.AbstractAgent;
-import pcd.ass01.simengineseq.AbstractSimulation;
-import pcd.ass01.simtrafficconc.CarAgentThread;
-import pcd.ass01.simtrafficconc.EnvThread;
+import pcd.ass01.simengineconc.MonitoredStep;
+import pcd.ass01.simengineconc.StepMonitor;
+import pcd.ass01.simengineseq_improved.AbstractAgent;
+import pcd.ass01.simengineseq_improved.AbstractSimulation;
+import pcd.ass01.simtrafficconc_improved.CarAgentThread;
+import pcd.ass01.simtrafficconc_improved.EnvThread;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +62,13 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                 monitor.waitAgentsStep(() -> {
                     t += dt;
 
+                    env.processActions();
+
                     notifyNewStep(t, agents, env);
 
                     nSteps++;
                     timePerStep += System.currentTimeMillis() - currentWallTime;
+                    System.out.println("(ALL) Step " + nSteps + " completed in " + (System.currentTimeMillis() - currentWallTime) + " ms");
                 });
                 Verify.endAtomic();
             } catch (InterruptedException e) {
