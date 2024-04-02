@@ -24,6 +24,8 @@ public class ConcurrentRoadsEnv extends RoadsEnv implements MonitoredStep {
                 for (TrafficLight tl : trafficLights) {
                     tl.step(dt);
                 }
+
+                cleanActions();
             });
         } catch (InterruptedException e) {
             e.printStackTrace();

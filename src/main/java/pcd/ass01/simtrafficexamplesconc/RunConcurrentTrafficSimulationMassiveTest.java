@@ -20,7 +20,8 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 		long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
 
-		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
+//		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
+		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "conc-single-road-massive.txt");
 	}
 	
 	private static void log(String msg) {

@@ -34,7 +34,8 @@ public class RunConcurrentTrafficSimulation {
 		long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
 
-		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
+//		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
+		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "conc-cross-roads.txt");
 	}
 
 	private static void log(String msg) {
