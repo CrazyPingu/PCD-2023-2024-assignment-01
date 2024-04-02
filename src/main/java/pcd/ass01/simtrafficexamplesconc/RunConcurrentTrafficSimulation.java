@@ -1,8 +1,7 @@
 package pcd.ass01.simtrafficexamplesconc;
 
-import pcd.ass01.simtrafficexamples.RoadSimStatistics;
-import pcd.ass01.simtrafficexamples.RoadSimView;
-import pcd.ass01.simtrafficexamples.TrafficSimulationWithCrossRoads;
+import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.utils.RoadEnvAnalyzer;
 
 /**
  * 
@@ -19,12 +18,27 @@ public class RunConcurrentTrafficSimulation {
 		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
-		RoadSimStatistics stat = new RoadSimStatistics();
-		RoadSimView view = new RoadSimView();
-		view.display();
+//		RoadSimStatistics stat = new RoadSimStatistics();
+//		RoadSimView view = new RoadSimView();
+//		view.display();
 		
-		simulation.addSimulationListener(stat);
-		simulation.addSimulationListener(view);		
-		simulation.run(10000);
+//		simulation.addSimulationListener(stat);
+//		simulation.addSimulationListener(view);
+
+		int nSteps = 100;
+
+		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
+
+		simulation.run(nSteps);
+
+		long d = simulation.getSimulationDuration();
+		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+
+		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
 	}
+
+	private static void log(String msg) {
+		System.out.println("[ SIMULATION ] " + msg);
+	}
+
 }

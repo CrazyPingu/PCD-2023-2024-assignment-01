@@ -108,6 +108,10 @@ public abstract class AbstractSimulation {
 		this.averageTimePerStep = timePerStep / numSteps;
 		
 	}
+
+	public AbstractEnvironment getEnvironment() {
+		return env;
+	}
 	
 	public long getSimulationDuration() {
 		return endWallTime - startWallTime;

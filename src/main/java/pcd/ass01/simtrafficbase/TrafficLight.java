@@ -64,6 +64,10 @@ public class TrafficLight {
 	public boolean isYellow() {
 		return state.equals(TrafficLightState.YELLOW);
 	}
+
+	public TrafficLightState state() {
+		return state;
+	}
 	
 	public P2d getPos() {
 		return pos;

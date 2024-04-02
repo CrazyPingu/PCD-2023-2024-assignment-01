@@ -1,5 +1,8 @@
 package pcd.ass01.simtrafficexamplesconc;
 
+import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.utils.RoadEnvAnalyzer;
+
 public class RunConcurrentTrafficSimulationMassiveTest {
 
 	public static void main(String[] args) {		
@@ -16,6 +19,8 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 
 		long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+
+		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
 	}
 	
 	private static void log(String msg) {
