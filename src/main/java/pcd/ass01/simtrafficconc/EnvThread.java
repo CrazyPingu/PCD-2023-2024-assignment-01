@@ -19,9 +19,7 @@ public class EnvThread extends Thread {
     @Override
     public void run() {
         while (steps < numberOfSteps) {
-            Verify.beginAtomic();
             env.step(dt);
-            Verify.endAtomic();
             steps++;
         }
     }

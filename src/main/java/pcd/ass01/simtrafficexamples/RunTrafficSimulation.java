@@ -10,9 +10,9 @@ public class RunTrafficSimulation {
 	public static void main(String[] args) {		
 
 		// var simulation = new TrafficSimulationSingleRoadTwoCars();
-		// var simulation = new TrafficSimulationSingleRoadSeveralCars();
+		TrafficSimulationSingleRoadSeveralCars simulation = new TrafficSimulationSingleRoadSeveralCars();
 		// var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
-		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads();
+		// TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
 		RoadSimStatistics stat = new RoadSimStatistics();

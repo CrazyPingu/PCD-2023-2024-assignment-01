@@ -19,4 +19,9 @@ public class RandomGeneratorImpl implements RandomGenerator {
     public Double nextDouble() {
         return random.nextDouble();
     }
+
+    @Override
+    public Double nextDouble(double min, double max) {
+        return min + (max - min) * random.nextDouble();
+    }
 }

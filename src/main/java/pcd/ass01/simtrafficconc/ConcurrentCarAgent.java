@@ -1,6 +1,5 @@
 package pcd.ass01.simtrafficconc;
 
-import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineconc.StepMonitor;
 import pcd.ass01.simengineseq.AbstractEnvironment;
 import pcd.ass01.simtrafficbase.CarAgent;
@@ -27,27 +26,30 @@ public abstract class ConcurrentCarAgent extends CarAgent {
      */
     public void step(int dt) {
 
-        /* sense */
-
-        AbstractEnvironment env = this.getEnv();
-        currentPercept = (CarPercept) env.getCurrentPercepts(getId());
-
-        /* decide */
-
-        selectedAction = Optional.empty();
-
-        decide(dt);
-
-        /* act */
-
         try {
-            Verify.beginAtomic();
-            if (selectedAction.isPresent()) {
-                monitor.agentStep(() -> env.submitAction(selectedAction.get()));
-            } else {
-                monitor.agentStep(() -> {});
-            }
-            Verify.endAtomic();
+            monitor.agentStep(() -> {
+                /* sense */
+
+                AbstractEnvironment env = this.getEnv();
+                currentPercept = (CarPercept) env.getCurrentPercepts(getId());
+
+                /* decide */
+
+                selectedAction = Optional.empty();
+
+                decide(dt);
+
+                /* act */
+                if (selectedAction.isPresent()) {
+                    env.submitAction(selectedAction.get());
+                }
+            });
+
+//            if (selectedAction.isPresent()) {
+//                monitor.agentStep(() -> env.submitAction(selectedAction.get()));
+//            } else {
+//                monitor.agentStep(() -> {});
+//            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

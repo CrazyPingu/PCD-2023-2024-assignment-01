@@ -22,7 +22,7 @@ public class StepMonitorImpl implements StepMonitor {
         agentsStep = mutex.newCondition();
         envStep = mutex.newCondition();
         agentsStepAll = mutex.newCondition();
-        continueFlagAgent = continueFlagEnv =false;
+        continueFlagAgent = continueFlagEnv = false;
     }
 
     @Override
@@ -30,7 +30,6 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             mutex.lock();
 
-            continueFlagEnv = true;
             while (count == 0 || count >= numberOfAgents) {
                 envStep.signal();
                 agentsStep.await();
@@ -42,6 +41,8 @@ public class StepMonitorImpl implements StepMonitor {
                 agentsStepAll.signal();
                 agentsStep.await();
             }
+            continueFlagEnv = true;
+            envStep.signal();
 
         } finally {
             mutex.unlock();
