@@ -1,7 +1,6 @@
 package pcd.ass01.simtrafficconc;
 
 import pcd.ass01.simengineseq.AbstractAgent;
-import gov.nasa.jpf.vm.Verify;
 
 public class CarAgentThread extends Thread {
 
@@ -19,9 +18,7 @@ public class CarAgentThread extends Thread {
     @Override
     public void run() {
         while (steps < numberOfSteps) {
-            Verify.beginAtomic();
             car.step(dt);
-            Verify.endAtomic();
             steps++;
         }
     }

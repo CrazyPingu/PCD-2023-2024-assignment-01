@@ -90,7 +90,7 @@ public class StepMonitorImpl implements StepMonitor {
     }
 
     @Override
-    public void notifyAllAgents() throws InterruptedException {
+    public void notifyAllAgents() {
         try {
             mutex.lock();
 

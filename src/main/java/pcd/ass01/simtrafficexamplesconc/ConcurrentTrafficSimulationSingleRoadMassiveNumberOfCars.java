@@ -1,13 +1,13 @@
 package pcd.ass01.simtrafficexamplesconc;
 
-import pcd.ass01.simengineconc.ConcurrentAbstractSimulation;
 import pcd.ass01.simengineconc.StepMonitor;
+import pcd.ass01.simengineconc.ConcurrentAbstractSimulation;
 import pcd.ass01.simengineconc.StepMonitorImpl;
-import pcd.ass01.simtrafficbase.CarAgent;
 import pcd.ass01.simtrafficbase.P2d;
+import pcd.ass01.simtrafficbase.CarAgent;
 import pcd.ass01.simtrafficbase.Road;
 import pcd.ass01.simtrafficbase.RoadsEnv;
-import pcd.ass01.simtrafficconc.*;
+import pcd.ass01.simtrafficconc.CarAgentBasic;
 import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;

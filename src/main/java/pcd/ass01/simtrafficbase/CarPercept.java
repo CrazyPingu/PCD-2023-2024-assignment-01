@@ -1,8 +1,8 @@
 package pcd.ass01.simtrafficbase;
 
-import java.util.Optional;
-
 import pcd.ass01.simengineseq.Percept;
+
+import java.util.Optional;
 
 /**
  * Percept for Car Agents
@@ -11,8 +11,6 @@ import pcd.ass01.simengineseq.Percept;
  * - nearest car, if present (distance)
  * - nearest semaphore, if presente (distance)
  */
-//public record CarPercept(double roadPos, Optional<CarAgentInfo> nearestCarInFront, Optional<TrafficLightInfo> nearestSem) implements Percept { }
-
 public class CarPercept implements Percept {
     public final double roadPos;
     public final Optional<CarAgentInfo> nearestCarInFront;

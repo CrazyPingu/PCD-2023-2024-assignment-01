@@ -1,9 +1,8 @@
 package pcd.ass01.simtrafficconc;
 
-import pcd.ass01.simengineconc.Callback;
+import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineconc.StepMonitor;
 import pcd.ass01.simengineseq.AbstractEnvironment;
-import pcd.ass01.simengineseq.Action;
 import pcd.ass01.simtrafficbase.CarAgent;
 import pcd.ass01.simtrafficbase.CarPercept;
 import pcd.ass01.simtrafficbase.Road;
@@ -42,14 +41,13 @@ public abstract class ConcurrentCarAgent extends CarAgent {
         /* act */
 
         try {
+            Verify.beginAtomic();
             if (selectedAction.isPresent()) {
-                Action action = selectedAction.get();
-                monitor.agentStep(() -> {
-                    env.doAction(getId(), action);
-                });
+                monitor.agentStep(() -> env.submitAction(selectedAction.get()));
             } else {
                 monitor.agentStep(() -> {});
             }
+            Verify.endAtomic();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

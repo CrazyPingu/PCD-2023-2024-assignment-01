@@ -60,6 +60,8 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                 monitor.waitAgentsStep(() -> {
                     t += dt;
 
+                    env.processActions();
+
                     notifyNewStep(t, agents, env);
 
                     nSteps++;

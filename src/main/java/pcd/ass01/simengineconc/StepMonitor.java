@@ -1,9 +1,5 @@
 package pcd.ass01.simengineconc;
 
-import pcd.ass01.simengineseq.Action;
-
-import java.util.Optional;
-
 /**
  *
  * Monitor for concurrent simulation.

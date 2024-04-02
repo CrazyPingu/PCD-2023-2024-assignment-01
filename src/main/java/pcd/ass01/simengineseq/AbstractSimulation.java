@@ -78,10 +78,21 @@ public abstract class AbstractSimulation {
 			/* make a step */
 			
 			env.step(dt);
+			
+			/* clean the submitted actions */
+			
+			env.cleanActions();
+			
+			/* ask each agent to make a step */
+			
 			for (AbstractAgent agent: agents) {
 				agent.step(dt);
 			}
 			t += dt;
+						
+			/* process actions submitted to the environment */
+			
+			env.processActions();
 			
 			notifyNewStep(t, agents, env);
 
@@ -131,7 +142,7 @@ public abstract class AbstractSimulation {
 	public void addSimulationListener(SimulationListener l) {
 		this.listeners.add(l);
 	}
-	
+
 	protected void notifyReset(int t0, List<AbstractAgent> agents, AbstractEnvironment env) {
 		for (SimulationListener l: listeners) {
 			l.notifyInit(t0, agents, env);

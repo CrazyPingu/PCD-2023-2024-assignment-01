@@ -5,17 +5,22 @@ import pcd.ass01.simengineseq.Action;
 /**
  * Car agent move forward action
  */
-//public record MoveForward(double distance) implements Action {}
+public final class MoveForward implements Action  {
 
-public final class MoveForward implements Action {
-    public final double distance;
+    private final String agentId;
+    private final double distance;
 
-    public MoveForward(double distance) {
+    public MoveForward(String agentId, double distance) {
+        this.agentId = agentId;
         this.distance = distance;
     }
 
-    public double getDistance() {
+    public double distance() {
         return distance;
+    }
+
+    public String agentId() {
+        return agentId;
     }
 
 }
