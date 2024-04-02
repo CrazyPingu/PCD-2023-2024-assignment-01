@@ -1,7 +1,5 @@
 
-import org.gradle.configurationcache.extensions.capitalized
 import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 
 plugins {
     id("java")

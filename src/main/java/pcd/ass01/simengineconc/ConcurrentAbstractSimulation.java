@@ -1,5 +1,6 @@
 package pcd.ass01.simengineconc;
 
+import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractAgent;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficconc.CarAgentThread;
@@ -55,6 +56,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
             }
 
             try {
+                Verify.beginAtomic();
                 monitor.waitAgentsStep(() -> {
                     t += dt;
 
@@ -63,6 +65,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                     nSteps++;
                     timePerStep += System.currentTimeMillis() - currentWallTime;
                 });
+                Verify.beginAtomic();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

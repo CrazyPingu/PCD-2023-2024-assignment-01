@@ -1,5 +1,6 @@
 package pcd.ass01.simtrafficconc;
 
+import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractEnvironment;
 
 public class EnvThread extends Thread {
@@ -18,7 +19,9 @@ public class EnvThread extends Thread {
     @Override
     public void run() {
         while (steps < numberOfSteps) {
+            Verify.beginAtomic();
             env.step(dt);
+            Verify.beginAtomic();
             steps++;
         }
     }
