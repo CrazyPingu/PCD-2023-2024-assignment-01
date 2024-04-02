@@ -37,6 +37,7 @@ replay_pid*
 ## JPF Runner
 !jpf-runner/build/
 !jpf-runner/build/*.jar
+!.lib/
 
 ## Gradle
 .gradle/
