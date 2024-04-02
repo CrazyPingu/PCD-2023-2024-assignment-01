@@ -33,7 +33,6 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             mutex.lock();
 
-            System.out.println("(AGENT) Agent step " + count);
             continueFlagEnv = true;
             while (count == 0 || count >= numberOfAgents) {
                 envStep.signal();
@@ -59,7 +58,6 @@ public class StepMonitorImpl implements StepMonitor {
 
             step.call();
 
-            System.out.println("(ENV) Env step " + count);
             count++;
             while (count < numberOfAgents) {
                 agentsStep.signalAll();
@@ -85,7 +83,6 @@ public class StepMonitorImpl implements StepMonitor {
             while (count < numberOfAgents || continueFlagAgent) {
                 agentsStepAll.await();
             }
-            System.out.println("(ALL-AGENTS) Step " + count + " completed");
             action.call();
             continueFlagAgent = true;
             envStep.signal();

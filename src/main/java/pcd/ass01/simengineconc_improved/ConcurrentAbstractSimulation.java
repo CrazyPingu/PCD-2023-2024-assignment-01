@@ -68,7 +68,6 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
                     nSteps++;
                     timePerStep += System.currentTimeMillis() - currentWallTime;
-                    System.out.println("(ALL) Step " + nSteps + " completed in " + (System.currentTimeMillis() - currentWallTime) + " ms");
                 });
                 Verify.endAtomic();
             } catch (InterruptedException e) {

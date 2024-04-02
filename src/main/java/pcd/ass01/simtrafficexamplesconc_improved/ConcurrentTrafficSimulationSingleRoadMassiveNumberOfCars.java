@@ -1,8 +1,8 @@
 package pcd.ass01.simtrafficexamplesconc_improved;
 
 import pcd.ass01.simengineconc.StepMonitor;
+import pcd.ass01.simengineconc_improved.ConcurrentAbstractSimulation;
 import pcd.ass01.simengineconc_improved.StepMonitorImpl;
-import pcd.ass01.simengineseq_improved.AbstractSimulation;
 import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase_improved.CarAgent;
 import pcd.ass01.simtrafficbase_improved.Road;
@@ -12,7 +12,7 @@ import pcd.ass01.simtrafficconc_improved.ConcurrentRoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
-public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends AbstractSimulation {
+public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends ConcurrentAbstractSimulation {
 
     private int numCars;
 
