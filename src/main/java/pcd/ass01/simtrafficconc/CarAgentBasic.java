@@ -84,8 +84,6 @@ public class CarAgentBasic extends ConcurrentCarAgent {
                 break;
         }
 
-        System.out.println(getId() + " CarAgentBasic: " + state + " speed: " + currentSpeed + " pos: " + currentPercept.roadPos());
-
         if (currentSpeed > 0) {
             selectedAction = Optional.of(new MoveForward(getId(), currentSpeed * dt));
         }
