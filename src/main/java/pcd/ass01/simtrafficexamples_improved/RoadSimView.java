@@ -3,6 +3,7 @@ package pcd.ass01.simtrafficexamples_improved;
 import pcd.ass01.simengineseq_improved.AbstractAgent;
 import pcd.ass01.simengineseq_improved.AbstractEnvironment;
 import pcd.ass01.simengineseq_improved.SimulationListener;
+import pcd.ass01.simtrafficbase.V2d;
 import pcd.ass01.simtrafficbase_improved.CarAgentInfo;
 import pcd.ass01.simtrafficbase_improved.Road;
 import pcd.ass01.simtrafficbase_improved.RoadsEnv;
@@ -48,7 +49,7 @@ public class RoadSimView extends JFrame implements SimulationListener {
 
 	@Override
 	public void notifyStepDone(int t, List<AbstractAgent> agents, AbstractEnvironment env) {
-		var e = ((RoadsEnv) env);
+		RoadsEnv e = ((RoadsEnv) env);
 		panel.update(e.getRoads(), e.getAgentInfo(), e.getTrafficLights());
 	}
 	
@@ -70,13 +71,13 @@ public class RoadSimView extends JFrame implements SimulationListener {
 			g2.clearRect(0,0,this.getWidth(),this.getHeight());
 			
 			if (roads != null) {
-				for (var r: roads) {
+				for (Road r: roads) {
 					g2.drawLine((int)r.getFrom().x(), (int)r.getFrom().y(), (int)r.getTo().x(), (int)r.getTo().y());
 				}
 			}
 			
 			if (sems != null) {
-				for (var s: sems) {
+				for (TrafficLight s: sems) {
 					if (s.isGreen()) {
 						g.setColor(new Color(0, 255, 0, 255));
 					} else if (s.isRed()) {
@@ -91,7 +92,7 @@ public class RoadSimView extends JFrame implements SimulationListener {
 			g.setColor(new Color(0, 0, 0, 255));
 
 			if (cars != null) {
-				for (var c: cars) {
+				for (CarAgentInfo c: cars) {
 					double pos = c.getPos();
 					Road r = c.getRoad();
 					V2d dir = V2d.makeV2d(r.getFrom(), r.getTo()).getNormalized().mul(pos);

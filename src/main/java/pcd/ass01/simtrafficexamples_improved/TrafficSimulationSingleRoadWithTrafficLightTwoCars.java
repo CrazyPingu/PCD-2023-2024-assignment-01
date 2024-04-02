@@ -1,6 +1,7 @@
 package pcd.ass01.simtrafficexamples_improved;
 
 import pcd.ass01.simengineseq_improved.AbstractSimulation;
+import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase_improved.*;
 
 /**
