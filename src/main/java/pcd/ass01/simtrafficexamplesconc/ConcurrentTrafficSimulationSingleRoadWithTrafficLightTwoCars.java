@@ -1,10 +1,11 @@
 package pcd.ass01.simtrafficexamplesconc;
 
 import pcd.ass01.simengineconc.ConcurrentAbstractSimulation;
-import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.*;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
+
 
 /**
  * 
@@ -14,7 +15,7 @@ import pcd.ass01.utils.RandomGeneratorImpl;
 public class ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars() {
-		super();
+		super(new ExecutionFlag(true));
 	}
 	
 	public void setup() {

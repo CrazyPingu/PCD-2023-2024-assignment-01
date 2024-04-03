@@ -3,6 +3,9 @@ package pcd.ass01.simtrafficexamples;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase.*;
+import pcd.ass01.simtrafficview.ExecutionFlag;
+
+import java.util.Optional;
 
 /**
  * 
@@ -12,7 +15,7 @@ import pcd.ass01.simtrafficbase.*;
 public class TrafficSimulationSingleRoadWithTrafficLightTwoCars extends AbstractSimulation {
 
 	public TrafficSimulationSingleRoadWithTrafficLightTwoCars() {
-		super();
+		super(new ExecutionFlag(true));
 	}
 	
 	public void setup() {

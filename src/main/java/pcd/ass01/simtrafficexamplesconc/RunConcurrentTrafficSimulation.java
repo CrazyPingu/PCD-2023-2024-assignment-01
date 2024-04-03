@@ -3,6 +3,7 @@ package pcd.ass01.simtrafficexamplesconc;
 import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.simtrafficexamples.RoadSimStatistics;
 import pcd.ass01.simtrafficexamples.RoadSimView;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RoadEnvAnalyzer;
 
 /**
@@ -17,7 +18,7 @@ public class RunConcurrentTrafficSimulation {
 		// ConcurrentTrafficSimulationSingleRoadSeveralCars simulation = new ConcurrentTrafficSimulationSingleRoadSeveralCars();
 		// ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100);
 		// var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
-		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads();
+		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads(new ExecutionFlag(true));
 		simulation.setup();
 		
 //		RoadSimStatistics stat = new RoadSimStatistics();

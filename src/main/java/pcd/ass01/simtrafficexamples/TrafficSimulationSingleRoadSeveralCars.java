@@ -6,6 +6,9 @@ import pcd.ass01.simtrafficbase.CarAgent;
 import pcd.ass01.simtrafficbase.CarAgentBasic;
 import pcd.ass01.simtrafficbase.Road;
 import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.simtrafficview.ExecutionFlag;
+
+import java.util.Optional;
 
 /**
  * 
@@ -16,7 +19,7 @@ import pcd.ass01.simtrafficbase.RoadsEnv;
 public class TrafficSimulationSingleRoadSeveralCars extends AbstractSimulation {
 
 	public TrafficSimulationSingleRoadSeveralCars() {
-		super();
+		super(new ExecutionFlag(true));
 	}
 	
 	public void setup() {

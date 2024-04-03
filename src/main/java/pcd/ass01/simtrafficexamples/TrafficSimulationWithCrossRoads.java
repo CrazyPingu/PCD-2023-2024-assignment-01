@@ -3,16 +3,20 @@ package pcd.ass01.simtrafficexamples;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase.*;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 
-	public TrafficSimulationWithCrossRoads() {
-		super();
+	public TrafficSimulationWithCrossRoads(ExecutionFlag threadFlag) {
+		super(threadFlag);
 	}
 	
 	public void setup() {
+
+		Random  gen = new Random(1);
 
 		this.setupTimings(0, 1);
 		
@@ -40,7 +44,6 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 		this.addAgent(car4);
 		
 		
-//		this.syncWithTime(25);
-	}	
-	
+		this.syncWithTime(25);
+	}
 }
