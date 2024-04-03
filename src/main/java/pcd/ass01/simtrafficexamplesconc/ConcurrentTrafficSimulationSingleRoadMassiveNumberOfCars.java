@@ -12,12 +12,14 @@ import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
+import java.util.Optional;
+
 public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends ConcurrentAbstractSimulation {
 
     private int numCars;
 
     public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
-        super();
+        super(true);
         this.numCars = numCars;
     }
 

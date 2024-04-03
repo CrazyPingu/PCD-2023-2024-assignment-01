@@ -4,12 +4,13 @@ import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase.*;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 
-	public TrafficSimulationWithCrossRoads() {
-		super();
+	public TrafficSimulationWithCrossRoads(boolean threadFlag) {
+		super(threadFlag);
 	}
 	
 	public void setup() {
@@ -43,6 +44,5 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 		
 		
 		this.syncWithTime(25);
-	}	
-	
+	}
 }

@@ -8,6 +8,7 @@ import pcd.ass01.simtrafficconc.EnvThread;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Base class for defining concrete concurrent simulations
@@ -17,6 +18,10 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
     private int t;
     private int nSteps;
     private long timePerStep;
+
+    protected ConcurrentAbstractSimulation(boolean threadFlag) {
+        super(threadFlag);
+    }
 
     @Override
     public void run(int numSteps) {
@@ -32,7 +37,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         env.init();
         for (AbstractAgent a : agents) {
             a.init(env);
-            agentsThreads.add(new CarAgentThread(a, dt, numSteps));
+            agentsThreads.add(new CarAgentThread(a, dt, numSteps, threadFlag));
         }
 
         this.notifyReset(t, agents, env);
@@ -40,13 +45,13 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         timePerStep = 0;
         nSteps = 0;
 
-        Thread envThread = new EnvThread(env, dt, numSteps);
+        Thread envThread = new EnvThread(env, dt, numSteps, threadFlag);
 
         for (Thread thread : agentsThreads) {
             thread.start();
         }
 
-        while (nSteps < numSteps) {
+        while (nSteps < numSteps && threadFlag) {
 
             currentWallTime = System.currentTimeMillis();
 

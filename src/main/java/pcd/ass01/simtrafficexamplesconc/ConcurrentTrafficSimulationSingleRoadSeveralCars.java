@@ -12,6 +12,8 @@ import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
+import java.util.Optional;
+
 /**
  * 
  * Traffic Simulation about a number of cars 
@@ -21,7 +23,7 @@ import pcd.ass01.utils.RandomGeneratorImpl;
 public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationSingleRoadSeveralCars() {
-		super();
+		super(true);
 	}
 	
 	public void setup() {

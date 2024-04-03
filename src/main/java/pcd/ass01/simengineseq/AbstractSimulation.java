@@ -2,6 +2,7 @@ package pcd.ass01.simengineseq;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Base class for defining concrete simulations
@@ -33,9 +34,11 @@ public abstract class AbstractSimulation {
 	protected long startWallTime;
 	protected long endWallTime;
 	protected long averageTimePerStep;
+	protected boolean threadFlag;
 
 
-	protected AbstractSimulation() {
+	protected AbstractSimulation(boolean threadFlag) {
+		this.threadFlag = threadFlag;
 		agents = new ArrayList<AbstractAgent>();
 		listeners = new ArrayList<SimulationListener>();
 		toBeInSyncWithWallTime = false;
@@ -71,7 +74,9 @@ public abstract class AbstractSimulation {
 		long timePerStep = 0;
 		int nSteps = 0;
 		
-		while (nSteps < numSteps) {
+		while (nSteps < numSteps && threadFlag) {
+			System.out.println("Thread flag: " + threadFlag);
+
 
 			currentWallTime = System.currentTimeMillis();
 		

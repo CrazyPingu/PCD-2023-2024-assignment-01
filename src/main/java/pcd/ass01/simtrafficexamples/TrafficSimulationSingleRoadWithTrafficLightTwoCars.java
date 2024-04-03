@@ -4,6 +4,8 @@ import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.P2d;
 import pcd.ass01.simtrafficbase.*;
 
+import java.util.Optional;
+
 /**
  * 
  * Traffic Simulation about 2 cars moving on a single road, with one semaphore
@@ -12,7 +14,7 @@ import pcd.ass01.simtrafficbase.*;
 public class TrafficSimulationSingleRoadWithTrafficLightTwoCars extends AbstractSimulation {
 
 	public TrafficSimulationSingleRoadWithTrafficLightTwoCars() {
-		super();
+		super(true);
 	}
 	
 	public void setup() {

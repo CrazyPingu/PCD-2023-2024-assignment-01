@@ -8,8 +8,10 @@ public class CarAgentThread extends Thread {
     private final int dt;
     private final int numberOfSteps;
     private int steps = 0;
+    private boolean threadFlag;
 
-    public CarAgentThread(AbstractAgent car, int dt, int numberOfSteps) {
+    public CarAgentThread(AbstractAgent car, int dt, int numberOfSteps, boolean threadFlag) {
+        this.threadFlag = threadFlag;
         this.car = car;
         this.dt = dt;
         this.numberOfSteps = numberOfSteps;
@@ -17,7 +19,7 @@ public class CarAgentThread extends Thread {
 
     @Override
     public void run() {
-        while (steps < numberOfSteps) {
+        while (steps < numberOfSteps && threadFlag) {
             car.step(dt);
             steps++;
         }

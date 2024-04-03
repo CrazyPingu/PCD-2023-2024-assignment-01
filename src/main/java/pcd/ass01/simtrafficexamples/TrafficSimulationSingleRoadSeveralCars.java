@@ -7,6 +7,8 @@ import pcd.ass01.simtrafficbase.CarAgentBasic;
 import pcd.ass01.simtrafficbase.Road;
 import pcd.ass01.simtrafficbase.RoadsEnv;
 
+import java.util.Optional;
+
 /**
  * 
  * Traffic Simulation about a number of cars 
@@ -16,7 +18,7 @@ import pcd.ass01.simtrafficbase.RoadsEnv;
 public class TrafficSimulationSingleRoadSeveralCars extends AbstractSimulation {
 
 	public TrafficSimulationSingleRoadSeveralCars() {
-		super();
+		super(true);
 	}
 	
 	public void setup() {

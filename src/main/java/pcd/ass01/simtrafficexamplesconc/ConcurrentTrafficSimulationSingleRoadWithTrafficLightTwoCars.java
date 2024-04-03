@@ -6,6 +6,8 @@ import pcd.ass01.simtrafficbase.*;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
+import java.util.Optional;
+
 /**
  * 
  * Traffic Simulation about 2 cars moving on a single road, with one semaphore
@@ -14,7 +16,7 @@ import pcd.ass01.utils.RandomGeneratorImpl;
 public class ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars() {
-		super();
+		super(true);
 	}
 	
 	public void setup() {

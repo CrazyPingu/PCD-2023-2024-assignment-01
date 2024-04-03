@@ -9,12 +9,14 @@ import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
+import java.util.Optional;
+
 public class TrafficSimulationSingleRoadMassiveNumberOfCars extends AbstractSimulation {
 
     private int numCars;
 
     public TrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
-        super();
+        super(true);
         this.numCars = numCars;
     }
 

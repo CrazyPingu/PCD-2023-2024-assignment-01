@@ -10,10 +10,12 @@ import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
+import java.util.Optional;
+
 public class ConcurrentTrafficSimulationWithCrossRoads extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationWithCrossRoads() {
-		super();
+		super(true);
 	}
 	
 	public void setup() {

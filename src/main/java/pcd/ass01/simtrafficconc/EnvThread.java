@@ -9,8 +9,10 @@ public class EnvThread extends Thread {
     private final int dt;
     private final int numberOfSteps;
     private int steps = 0;
+    private boolean threadFlag;
 
-    public EnvThread(AbstractEnvironment env, int dt, int numberOfSteps) {
+    public EnvThread(AbstractEnvironment env, int dt, int numberOfSteps, boolean threadFlag) {
+        this.threadFlag = threadFlag;
         this.env = env;
         this.dt = dt;
         this.numberOfSteps = numberOfSteps;
@@ -18,7 +20,7 @@ public class EnvThread extends Thread {
 
     @Override
     public void run() {
-        while (steps < numberOfSteps) {
+        while (steps < numberOfSteps && threadFlag) {
             env.step(dt);
             steps++;
         }
