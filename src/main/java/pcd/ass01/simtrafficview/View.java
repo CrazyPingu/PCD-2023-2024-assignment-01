@@ -1,10 +1,14 @@
 package pcd.ass01.simtrafficview;
 
+import pcd.ass01.simengineconc.ConcurrentAbstractSimulation;
+import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficexamples.RoadSimStatistics;
 import pcd.ass01.simtrafficexamples.RoadSimView;
 import pcd.ass01.simtrafficexamples.TrafficSimulationWithCrossRoads;
+import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationWithCrossRoads;
 
 import javax.swing.*;
+import java.lang.reflect.Array;
 
 public class View extends JFrame {
 
@@ -16,12 +20,20 @@ public class View extends JFrame {
     private Thread simulationThread;
     private ExecutionFlag threadFlag;
     private RoadSimView view;
+    private JComboBox<AbstractSimulation> selectedSimulation;
 
 
     public View() {
         super("SimTraffic");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(300, 100);
+
+        AbstractSimulation[] choices = { new TrafficSimulationWithCrossRoads(threadFlag),
+                new ConcurrentTrafficSimulationWithCrossRoads(threadFlag)};
+
+
+        selectedSimulation = new JComboBox<>(choices);
+
         settingsPage = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
@@ -30,6 +42,7 @@ public class View extends JFrame {
         settingsPage.add(startButton);
         settingsPage.add(stopButton);
         settingsPage.add(nStepField);
+        settingsPage.add(selectedSimulation);
 
         stopButton.setEnabled(false);
         threadFlag = new ExecutionFlag(true);

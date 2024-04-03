@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class ConcurrentTrafficSimulationWithCrossRoads extends ConcurrentAbstractSimulation {
 
-	public ConcurrentTrafficSimulationWithCrossRoads() {
-		super(new ExecutionFlag(true));
+	public ConcurrentTrafficSimulationWithCrossRoads(ExecutionFlag threadFlag) {
+		super(threadFlag);
 	}
 	
 	public void setup() {
