@@ -13,7 +13,6 @@ import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
-import java.util.Optional;
 
 /**
  * 
@@ -24,7 +23,11 @@ import java.util.Optional;
 public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationSingleRoadSeveralCars() {
-		super(new ExecutionFlag(true));
+		this(new ExecutionFlag(true));
+	}
+
+	public ConcurrentTrafficSimulationSingleRoadSeveralCars(ExecutionFlag threadFlag) {
+		super(threadFlag);
 	}
 	
 	public void setup() {

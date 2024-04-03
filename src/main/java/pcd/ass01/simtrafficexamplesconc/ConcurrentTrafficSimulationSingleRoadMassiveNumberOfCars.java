@@ -13,16 +13,20 @@ import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
-import java.util.Optional;
-
 public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends ConcurrentAbstractSimulation {
 
     private int numCars;
 
-    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
-        super(new ExecutionFlag(true));
+    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars, ExecutionFlag threadFlag) {
+        super(threadFlag);
         this.numCars = numCars;
     }
+
+    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
+        this(numCars, new ExecutionFlag(true));
+    }
+
+
 
     public void setup() {
         this.setupTimings(0, 1);
@@ -54,7 +58,7 @@ public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends Co
             this.addAgent(car);
 
             /* no sync with wall-time */
-            // this.syncWithTime(25);
+           this.syncWithTime(25);
         }
 
     }

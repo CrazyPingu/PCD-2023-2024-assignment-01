@@ -2,9 +2,7 @@ package pcd.ass01.simtrafficexamplesconc;
 
 import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simtrafficbase.RoadsEnv;
-import pcd.ass01.simtrafficexamples.RoadSimStatistics;
-import pcd.ass01.simtrafficexamples.RoadSimView;
-import pcd.ass01.simtrafficview.ExecutionFlag;
+import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadWithTrafficLightTwoCars;
 import pcd.ass01.utils.RoadEnvAnalyzer;
 
 /**
@@ -16,12 +14,12 @@ public class RunConcurrentTrafficSimulation {
 
 	public static void main(String[] args) {
 
-		// ConcurrentTrafficSimulationSingleRoadSeveralCars simulation = new ConcurrentTrafficSimulationSingleRoadSeveralCars();
-		// ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100);
-		// var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
-		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads(new ExecutionFlag(true));
+//		 ConcurrentTrafficSimulationSingleRoadSeveralCars simulation = new ConcurrentTrafficSimulationSingleRoadSeveralCars();
+//		 ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100);
+		TrafficSimulationSingleRoadWithTrafficLightTwoCars simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
+//		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads();
 		simulation.setup();
-		
+
 //		RoadSimStatistics stat = new RoadSimStatistics();
 //		RoadSimView view = new RoadSimView();
 //		view.display();

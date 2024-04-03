@@ -11,12 +11,15 @@ import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
-import java.util.Optional;
 
 public class ConcurrentTrafficSimulationWithCrossRoads extends ConcurrentAbstractSimulation {
 
 	public ConcurrentTrafficSimulationWithCrossRoads(ExecutionFlag threadFlag) {
 		super(threadFlag);
+	}
+
+	public ConcurrentTrafficSimulationWithCrossRoads() {
+		this(new ExecutionFlag(true));
 	}
 	
 	public void setup() {
@@ -61,7 +64,7 @@ public class ConcurrentTrafficSimulationWithCrossRoads extends ConcurrentAbstrac
 		this.addAgent(car4);
 
 		
-//		this.syncWithTime(25);
+		this.syncWithTime(25);
 	}	
 	
 }

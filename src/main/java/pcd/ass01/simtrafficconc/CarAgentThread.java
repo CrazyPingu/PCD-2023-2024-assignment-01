@@ -9,7 +9,7 @@ public class CarAgentThread extends Thread {
     private final int dt;
     private final int numberOfSteps;
     private int steps = 0;
-    private ExecutionFlag threadFlag;
+    private final ExecutionFlag threadFlag;
 
     public CarAgentThread(AbstractAgent car, int dt, int numberOfSteps, ExecutionFlag threadFlag) {
         this.threadFlag = threadFlag;
