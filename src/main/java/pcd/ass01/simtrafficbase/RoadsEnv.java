@@ -1,5 +1,6 @@
 package pcd.ass01.simtrafficbase;
 
+import pcd.ass01.simengineconc.Callback;
 import pcd.ass01.simengineseq.AbstractEnvironment;
 import pcd.ass01.simengineseq.Action;
 import pcd.ass01.simengineseq.Percept;
@@ -12,9 +13,9 @@ import java.util.stream.Collectors;
 
 public class RoadsEnv extends AbstractEnvironment {
 
-	private static final int MIN_DIST_ALLOWED = 5;
-	private static final int CAR_DETECTION_RANGE = 30;
-	private static final int SEM_DETECTION_RANGE = 30;
+	protected static final int MIN_DIST_ALLOWED = 5;
+	protected static final int CAR_DETECTION_RANGE = 30;
+	protected static final int SEM_DETECTION_RANGE = 30;
 
 	/* list of roads */
 	private List<Road> roads;
@@ -23,7 +24,7 @@ public class RoadsEnv extends AbstractEnvironment {
 	protected List<TrafficLight> trafficLights;
 
 	/* cars situated in the environment */
-	private HashMap<String, CarAgentInfo> registeredCars;
+	protected HashMap<String, CarAgentInfo> registeredCars;
 
 
 	public RoadsEnv() {
@@ -75,7 +76,7 @@ public class RoadsEnv extends AbstractEnvironment {
 		return new CarPercept(pos, nearestCar, nearestSem);
 	}
 
-	private Optional<CarAgentInfo> getNearestCarInFront(Road road, double carPos, double range){
+	protected Optional<CarAgentInfo> getNearestCarInFront(Road road, double carPos, double range){
 		return
 				registeredCars
 				.entrySet()
@@ -100,26 +101,33 @@ public class RoadsEnv extends AbstractEnvironment {
 
 	@Override
 	public void processActions() {
-		for (Action act: submittedActions) {
-            if (act instanceof MoveForward) {
-                MoveForward mv = (MoveForward) act;
-                CarAgentInfo info = registeredCars.get(mv.agentId());
-                Road road = info.getRoad();
-                Optional<CarAgentInfo> nearestCar = getNearestCarInFront(road, info.getPos(), CAR_DETECTION_RANGE);
+		List<Callback> effectiveActions = new ArrayList<>();
 
-                if (nearestCar.isPresent()) {
-                    double dist = nearestCar.get().getPos() - info.getPos();
-                    if (dist > mv.distance() + MIN_DIST_ALLOWED) {
-                        info.updatePos(info.getPos() + mv.distance());
-                    }
-                } else {
-                    info.updatePos(info.getPos() + mv.distance());
-                }
+		for (Action act : submittedActions) {
+			if (act instanceof MoveForward) {
+				MoveForward mv = (MoveForward) act;
+				CarAgentInfo info = registeredCars.get(mv.agentId());
+				Road road = info.getRoad();
+				Optional<CarAgentInfo> nearestCar = getNearestCarInFront(road, info.getPos(), CAR_DETECTION_RANGE);
 
-                if (info.getPos() > road.getLen()) {
-                    info.updatePos(0);
-                }
-            }
+				if (nearestCar.isPresent()) {
+					double dist = nearestCar.get().getPos() - info.getPos();
+					if (dist > mv.distance() + MIN_DIST_ALLOWED) {
+						effectiveActions.add(() -> info.updatePos(info.getPos() + mv.distance()));
+					}
+				} else {
+					effectiveActions.add(() -> info.updatePos(info.getPos() + mv.distance()));
+				}
+
+				if (info.getPos() > road.getLen()) {
+					effectiveActions.add(() -> info.updatePos(0));
+				}
+			}
+		}
+
+		// Execute the actions previously collected in order to avoid problems related with the order of the actions
+		for (Callback action : effectiveActions) {
+			action.call();
 		}
 	}
 
