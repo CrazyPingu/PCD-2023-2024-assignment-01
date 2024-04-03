@@ -5,10 +5,7 @@ import pcd.ass01.simengineseq.AbstractEnvironment;
 import pcd.ass01.simengineseq.Action;
 import pcd.ass01.simengineseq.Percept;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RoadsEnv extends AbstractEnvironment {
@@ -133,7 +130,7 @@ public class RoadsEnv extends AbstractEnvironment {
 
 
 	public List<CarAgentInfo> getAgentInfo(){
-		return this.registeredCars.entrySet().stream().map(el -> el.getValue()).collect(Collectors.toList());
+		return new ArrayList<>(this.registeredCars.values());
 	}
 
 	public List<Road> getRoads(){
