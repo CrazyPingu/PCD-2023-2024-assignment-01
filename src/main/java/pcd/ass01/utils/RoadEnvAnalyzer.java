@@ -71,7 +71,7 @@ public class RoadEnvAnalyzer {
             while (line1 != null && line2 != null) {
                 if (!line1.equals(line2)) {
                     System.out.println("The files are different." +
-                            "File1: " + line1 +
+                            "\nFile1: " + line1 +
                             "\nFile2: " + line2);
                     return false;
                 }

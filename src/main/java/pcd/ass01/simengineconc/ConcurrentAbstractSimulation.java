@@ -72,9 +72,9 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                 e.printStackTrace();
             }
 
-//            if (toBeInSyncWithWallTime) {
-//                syncWithWallTime();
-//            }
+            if (toBeInSyncWithWallTime) {
+                syncWithWallTime();
+            }
         }
 
         Verify.endAtomic();

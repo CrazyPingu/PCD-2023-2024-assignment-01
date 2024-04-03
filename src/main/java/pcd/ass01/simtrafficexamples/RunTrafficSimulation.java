@@ -18,24 +18,24 @@ public class RunTrafficSimulation {
 		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
-//		RoadSimStatistics stat = new RoadSimStatistics();
-//		RoadSimView view = new RoadSimView();
-//		view.display();
+		RoadSimStatistics stat = new RoadSimStatistics();
+		RoadSimView view = new RoadSimView();
+		view.display();
 		
-//		simulation.addSimulationListener(stat);
-//		simulation.addSimulationListener(view);
+		simulation.addSimulationListener(stat);
+		simulation.addSimulationListener(view);
 
-		int nSteps = 100;
+		int nSteps = 100000;
 
-		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
+//		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
 
 		simulation.run(nSteps);
 
-		long d = simulation.getSimulationDuration();
-		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
-
-//		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
-		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "seq-cross-roads.txt");
+//		long d = simulation.getSimulationDuration();
+//		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+//
+////		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
+//		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "seq-cross-roads.txt");
 	}
 
 	private static void log(String msg) {

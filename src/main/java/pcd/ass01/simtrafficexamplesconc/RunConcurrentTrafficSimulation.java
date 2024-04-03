@@ -1,6 +1,8 @@
 package pcd.ass01.simtrafficexamplesconc;
 
 import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.simtrafficexamples.RoadSimStatistics;
+import pcd.ass01.simtrafficexamples.RoadSimView;
 import pcd.ass01.utils.RoadEnvAnalyzer;
 
 /**
@@ -13,19 +15,19 @@ public class RunConcurrentTrafficSimulation {
 	public static void main(String[] args) {
 
 		// ConcurrentTrafficSimulationSingleRoadSeveralCars simulation = new ConcurrentTrafficSimulationSingleRoadSeveralCars();
-//		 ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(3);
+		// ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100);
 		// var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
 		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
-//		RoadSimStatistics stat = new RoadSimStatistics();
-//		RoadSimView view = new RoadSimView();
-//		view.display();
+		RoadSimStatistics stat = new RoadSimStatistics();
+		RoadSimView view = new RoadSimView();
+		view.display();
 		
-//		simulation.addSimulationListener(stat);
-//		simulation.addSimulationListener(view);
+		simulation.addSimulationListener(stat);
+		simulation.addSimulationListener(view);
 
-		int nSteps = 100;
+		int nSteps = 100000;
 
 		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
 

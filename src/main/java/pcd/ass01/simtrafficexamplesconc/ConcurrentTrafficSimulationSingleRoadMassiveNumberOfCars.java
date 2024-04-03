@@ -51,6 +51,7 @@ public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends Co
             this.addAgent(car);
 
             /* no sync with wall-time */
+            // this.syncWithTime(25);
         }
 
     }
