@@ -20,14 +20,14 @@ public class RunConcurrentTrafficSimulation {
 		ConcurrentTrafficSimulationWithCrossRoads simulation = new ConcurrentTrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
-		RoadSimStatistics stat = new RoadSimStatistics();
-		RoadSimView view = new RoadSimView();
-		view.display();
-		
-		simulation.addSimulationListener(stat);
-		simulation.addSimulationListener(view);
+//		RoadSimStatistics stat = new RoadSimStatistics();
+//		RoadSimView view = new RoadSimView();
+//		view.display();
+//
+//		simulation.addSimulationListener(stat);
+//		simulation.addSimulationListener(view);
 
-		int nSteps = 100000;
+		int nSteps = 10000;
 
 		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
 

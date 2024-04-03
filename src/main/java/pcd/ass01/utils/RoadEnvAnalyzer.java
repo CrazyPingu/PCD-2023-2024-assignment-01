@@ -30,7 +30,7 @@ public class RoadEnvAnalyzer {
                          + "      road from: " + car.getRoad().getFrom() + " to: " + car.getRoad().getTo() + "\n"));
 
         System.out.println("  TrafficLights:");
-        env.getTrafficLights().forEach(tl -> System.out.println("    " + tl + "\n"
+        env.getTrafficLights().forEach(tl -> System.out.println("    " + "traffic light" + "\n"
                          + "      position: " + tl.getPos() + "\n"
                          + "      state: " + tl.state() + "\n"));
     }
@@ -52,7 +52,7 @@ public class RoadEnvAnalyzer {
                     + "      road from: " + car.getRoad().getFrom() + " to: " + car.getRoad().getTo() + "\n"));
 
             writer.println("  TrafficLights:");
-            env.getTrafficLights().forEach(tl -> writer.println("    " + tl + "\n"
+            env.getTrafficLights().forEach(tl -> writer.println("    " + "traffic light" + "\n"
                     + "      position: " + tl.getPos() + "\n"
                     + "      state: " + tl.state() + "\n"));
 

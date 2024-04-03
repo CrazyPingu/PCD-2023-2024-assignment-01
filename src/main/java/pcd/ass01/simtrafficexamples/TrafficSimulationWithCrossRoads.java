@@ -14,8 +14,6 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 	
 	public void setup() {
 
-		Random  gen = new Random(1);
-
 		this.setupTimings(0, 1);
 		
 		RoadsEnv env = new RoadsEnv();
@@ -42,7 +40,7 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 		this.addAgent(car4);
 		
 		
-		this.syncWithTime(25);
+//		this.syncWithTime(25);
 	}	
 	
 }
