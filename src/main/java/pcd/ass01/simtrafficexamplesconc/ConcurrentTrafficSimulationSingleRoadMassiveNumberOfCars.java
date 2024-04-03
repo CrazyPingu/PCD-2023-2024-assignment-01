@@ -9,6 +9,7 @@ import pcd.ass01.simtrafficbase.Road;
 import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.simtrafficconc.CarAgentBasic;
 import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RandomGenerator;
 import pcd.ass01.utils.RandomGeneratorImpl;
 
@@ -19,7 +20,7 @@ public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends Co
     private int numCars;
 
     public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
-        super(true);
+        super(new ExecutionFlag(true));
         this.numCars = numCars;
     }
 

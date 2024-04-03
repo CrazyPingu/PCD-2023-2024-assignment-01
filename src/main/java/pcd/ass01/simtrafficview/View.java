@@ -14,8 +14,8 @@ public class View extends JFrame {
     private JTextField nStepField;
     private RoadSimView roadSimView;
     private Thread simulationThread;
-    private TrafficSimulationWithCrossRoads simulation;
-    private boolean threadFlag;
+    private ExecutionFlag threadFlag;
+    private RoadSimView view;
 
 
     public View() {
@@ -32,20 +32,22 @@ public class View extends JFrame {
         settingsPage.add(nStepField);
 
         stopButton.setEnabled(false);
+        threadFlag = new ExecutionFlag(true);
         startButton.addActionListener(e -> {
 
-            threadFlag = true;
+            threadFlag.set(true);
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
 
 
             simulationThread = new Thread(() -> {
-                simulation = new TrafficSimulationWithCrossRoads(threadFlag);
+                TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads(threadFlag);
                 simulation.setup();
 
                 RoadSimStatistics stat = new RoadSimStatistics();
-                RoadSimView view = new RoadSimView();
-                view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                view = new RoadSimView();
+                view.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                view.setLocationRelativeTo(null);
                 view.display();
 
                 simulation.addSimulationListener(stat);
@@ -64,8 +66,8 @@ public class View extends JFrame {
         });
 
         stopButton.addActionListener(e -> {
-            threadFlag = false;
-//            simulationThread.interrupt();
+            threadFlag.set(false);
+            view.dispose();
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
         });
@@ -74,6 +76,5 @@ public class View extends JFrame {
         add(settingsPage);
         setVisible(true);
     }
-
-
 }
+

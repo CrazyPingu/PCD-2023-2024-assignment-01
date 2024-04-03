@@ -1,7 +1,7 @@
 package pcd.ass01.simtrafficconc;
 
-import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractEnvironment;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 
 public class EnvThread extends Thread {
 
@@ -9,9 +9,9 @@ public class EnvThread extends Thread {
     private final int dt;
     private final int numberOfSteps;
     private int steps = 0;
-    private boolean threadFlag;
+    private ExecutionFlag threadFlag;
 
-    public EnvThread(AbstractEnvironment env, int dt, int numberOfSteps, boolean threadFlag) {
+    public EnvThread(AbstractEnvironment env, int dt, int numberOfSteps, ExecutionFlag threadFlag) {
         this.threadFlag = threadFlag;
         this.env = env;
         this.dt = dt;
@@ -20,7 +20,7 @@ public class EnvThread extends Thread {
 
     @Override
     public void run() {
-        while (steps < numberOfSteps && threadFlag) {
+        while (steps < numberOfSteps && threadFlag.get()) {
             env.step(dt);
             steps++;
         }

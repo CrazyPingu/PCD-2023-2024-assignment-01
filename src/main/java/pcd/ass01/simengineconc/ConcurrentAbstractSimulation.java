@@ -1,14 +1,13 @@
 package pcd.ass01.simengineconc;
 
-import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractAgent;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficconc.CarAgentThread;
 import pcd.ass01.simtrafficconc.EnvThread;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Base class for defining concrete concurrent simulations
@@ -19,7 +18,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
     private int nSteps;
     private long timePerStep;
 
-    protected ConcurrentAbstractSimulation(boolean threadFlag) {
+    protected ConcurrentAbstractSimulation(ExecutionFlag threadFlag) {
         super(threadFlag);
     }
 
@@ -51,7 +50,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
             thread.start();
         }
 
-        while (nSteps < numSteps && threadFlag) {
+        while (nSteps < numSteps && threadFlag.get()) {
 
             currentWallTime = System.currentTimeMillis();
 

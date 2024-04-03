@@ -1,9 +1,6 @@
 package pcd.ass01.simtrafficexamples;
 
-import pcd.ass01.simtrafficbase.RoadsEnv;
-import pcd.ass01.utils.RoadEnvAnalyzer;
-
-import java.util.Optional;
+import pcd.ass01.simtrafficview.ExecutionFlag;
 
 /**
  * 
@@ -17,7 +14,7 @@ public class RunTrafficSimulation {
 		// var simulation = new TrafficSimulationSingleRoadTwoCars();
 		// TrafficSimulationSingleRoadSeveralCars simulation = new TrafficSimulationSingleRoadSeveralCars();
 		// var simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
-		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads(true);
+		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads(new ExecutionFlag(true));
 		simulation.setup();
 		
 		RoadSimStatistics stat = new RoadSimStatistics();
