@@ -75,8 +75,6 @@ public abstract class AbstractSimulation {
 		int nSteps = 0;
 
 		while (nSteps < numSteps && threadFlag.get()) {
-			System.out.println("Thread flag: " + threadFlag.get());
-
 
 			currentWallTime = System.currentTimeMillis();
 		
@@ -103,7 +101,7 @@ public abstract class AbstractSimulation {
 
 			nSteps++;			
 			timePerStep += System.currentTimeMillis() - currentWallTime;
-			
+
 			if (toBeInSyncWithWallTime) {
 				syncWithWallTime();
 			}

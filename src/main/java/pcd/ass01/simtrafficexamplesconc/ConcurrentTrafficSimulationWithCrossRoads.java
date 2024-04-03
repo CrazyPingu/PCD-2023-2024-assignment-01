@@ -61,7 +61,7 @@ public class ConcurrentTrafficSimulationWithCrossRoads extends ConcurrentAbstrac
 		this.addAgent(car4);
 
 		
-		this.syncWithTime(25);
+//		this.syncWithTime(25);
 	}	
 	
 }

@@ -44,6 +44,6 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 		this.addAgent(car4);
 		
 		
-		this.syncWithTime(25);
+//		this.syncWithTime(25);
 	}
 }
