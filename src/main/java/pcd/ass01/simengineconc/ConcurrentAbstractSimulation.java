@@ -42,8 +42,6 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
 
         Thread envThread = new EnvThread(env, dt, numSteps);
 
-        Verify.beginAtomic();
-
         for (Thread thread : agentsThreads) {
             thread.start();
         }
@@ -76,8 +74,6 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                 syncWithWallTime();
             }
         }
-
-        Verify.endAtomic();
 
         endWallTime = System.currentTimeMillis();
         this.averageTimePerStep = timePerStep / numSteps;

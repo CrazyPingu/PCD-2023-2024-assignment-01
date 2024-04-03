@@ -1,5 +1,6 @@
 package pcd.ass01.simtrafficexamplesconc;
 
+import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.utils.RoadEnvAnalyzer;
 
@@ -14,8 +15,10 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 		simulation.setup();
 		
 		log("Running the simulation: " + numCars + " cars, for " + nSteps + " steps ...");
-		
+
+		Verify.beginAtomic();
 		simulation.run(nSteps);
+		Verify.endAtomic();
 
 		long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
