@@ -1,30 +1,27 @@
 package pcd.ass01.simtrafficexamples;
 
 import pcd.ass01.simengineseq.AbstractSimulation;
-import pcd.ass01.simtrafficbase.P2d;
-import pcd.ass01.simtrafficbase.CarAgent;
-import pcd.ass01.simtrafficbase.CarAgentBasic;
-import pcd.ass01.simtrafficbase.Road;
-import pcd.ass01.simtrafficbase.RoadsEnv;
+import pcd.ass01.simtrafficbase.*;
 import pcd.ass01.simtrafficview.ExecutionFlag;
-import pcd.ass01.utils.RandomGenerator;
-import pcd.ass01.utils.RandomGeneratorImpl;
-
-import java.util.Optional;
 
 public class TrafficSimulationSingleRoadMassiveNumberOfCars extends AbstractSimulation {
 
     private int numCars;
+    private boolean guiEnabled;
 
     public TrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
         super(new ExecutionFlag(true));
         this.numCars = numCars;
     }
 
+    public TrafficSimulationSingleRoadMassiveNumberOfCars(int numCars, ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+        super(threadFlag, seed);
+        this.numCars = numCars;
+        this.guiEnabled = guiEnabled;
+    }
+
     public void setup() {
         this.setupTimings(0, 1);
-
-        RandomGenerator gen = new RandomGeneratorImpl(1234);
 
         RoadsEnv env = new RoadsEnv();
         this.setupEnvironment(env);
@@ -48,6 +45,8 @@ public class TrafficSimulationSingleRoadMassiveNumberOfCars extends AbstractSimu
             this.addAgent(car);
 
             /* no sync with wall-time */
+            if (guiEnabled)
+                this.syncWithTime(25);
         }
 
     }

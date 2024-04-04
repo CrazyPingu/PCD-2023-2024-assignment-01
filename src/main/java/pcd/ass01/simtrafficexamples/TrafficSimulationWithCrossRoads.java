@@ -4,8 +4,6 @@ import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.*;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
-import java.util.Random;
-
 public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 
     private boolean guiEnabled = false;
@@ -20,9 +18,6 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
     }
 
     public void setup() {
-
-        Random gen = new Random(1);
-
         this.setupTimings(0, 1);
 
         RoadsEnv env = new RoadsEnv();

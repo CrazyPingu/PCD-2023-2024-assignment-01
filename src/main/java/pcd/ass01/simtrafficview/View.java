@@ -16,6 +16,7 @@ public class View extends JFrame {
     private final JButton startButton;
     private final JButton stopButton;
     private final JTextField nStepField;
+    private final JTextField seedField;
     private final ExecutionFlag threadFlag;
     private final JComboBox<SimulationType> selectedSimulationComboBox;
     private final JCheckBox runWithGuiCheckBox;
@@ -29,6 +30,7 @@ public class View extends JFrame {
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         nStepField = new JTextField("10000");
+        seedField = new JTextField("4321");
         runWithGuiCheckBox = new JCheckBox("Start simulation with GUI");
         selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
 
@@ -43,18 +45,23 @@ public class View extends JFrame {
      * @return the panel with the settings
      */
     private JPanel createPanel() {
+        runWithGuiCheckBox.setSelected(true);
         JPanel settingsPage = new JPanel(new GridBagLayout());
         startButton.setEnabled(true);
         stopButton.setEnabled(false);
         JLabel stepLabel = new JLabel("Step:");
         nStepField.setPreferredSize(new Dimension(70, 20));
-        runWithGuiCheckBox.setSelected(true);
+        JLabel seedLabel = new JLabel("Seed:");
+        seedField.setPreferredSize(new Dimension(70, 20));
+
         settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
         settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
         settingsPage.add(stepLabel, new GridBagConstraintsExtended(1, 1, GridBagConstraints.EAST, 1));
         settingsPage.add(nStepField, new GridBagConstraintsExtended(2, 1, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
-        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 2, GridBagConstraints.CENTER, 2));
-        settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
+        settingsPage.add(seedLabel, new GridBagConstraintsExtended(1, 2, GridBagConstraints.EAST, 1));
+        settingsPage.add(seedField, new GridBagConstraintsExtended(2, 2, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
+        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 3, GridBagConstraints.CENTER, 2));
+        settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 4, GridBagConstraints.CENTER, 99));
 
 
         startButton.addActionListener(e -> {
@@ -75,7 +82,7 @@ public class View extends JFrame {
 
         new Thread(() -> {
             SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
-            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false);
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false, Integer.parseInt(seedField.getText()));
             if (simulation != null) {
                 simulation.setup();
                 simulation.run(Integer.parseInt(nStepField.getText()));
@@ -99,7 +106,7 @@ public class View extends JFrame {
 
         new Thread(() -> {
             SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
-            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true);
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true, Integer.parseInt(seedField.getText()));
             if (simulation != null) {
                 simulation.setup();
                 view = new RoadSimView();
@@ -128,7 +135,7 @@ public class View extends JFrame {
     /**
      * Show a dialog with the given title and message
      *
-     * @param title the title of the dialog
+     * @param title   the title of the dialog
      * @param message the message shown inside the dialog
      */
     private void showDialog(String title, String message) {

@@ -10,8 +10,6 @@ import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.simtrafficconc.CarAgentBasic;
 import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.simtrafficview.ExecutionFlag;
-import pcd.ass01.utils.RandomGenerator;
-import pcd.ass01.utils.RandomGeneratorImpl;
 
 
 /**
@@ -31,9 +29,12 @@ public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends Concurrent
         this.guiEnabled = guiEnabled;
     }
 
-    public void setup() {
+    public ConcurrentTrafficSimulationSingleRoadSeveralCars(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+        super(threadFlag, seed);
+        this.guiEnabled = guiEnabled;
+    }
 
-        RandomGenerator gen = new RandomGeneratorImpl(1234);
+    public void setup() {
 
         int nCars = 5;
 

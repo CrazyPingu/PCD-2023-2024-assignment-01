@@ -22,6 +22,10 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         super(threadFlag);
     }
 
+    protected ConcurrentAbstractSimulation(ExecutionFlag threadFlag, int seed) {
+        super(threadFlag, seed);
+    }
+
     @Override
     public void run(int numSteps) {
         StepMonitor monitor = ((MonitoredStep) env).getMonitor();

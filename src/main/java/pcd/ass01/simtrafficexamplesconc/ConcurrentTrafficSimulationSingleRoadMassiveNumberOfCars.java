@@ -10,8 +10,6 @@ import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.simtrafficconc.CarAgentBasic;
 import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.simtrafficview.ExecutionFlag;
-import pcd.ass01.utils.RandomGenerator;
-import pcd.ass01.utils.RandomGeneratorImpl;
 
 public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends ConcurrentAbstractSimulation {
 
@@ -28,12 +26,15 @@ public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends Co
         this(numCars, new ExecutionFlag(true), false);
     }
 
+    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars, ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+        super(threadFlag, seed);
+        this.numCars = numCars;
+        this.guiEnabled = guiEnabled;
+    }
 
 
     public void setup() {
         this.setupTimings(0, 1);
-
-        RandomGenerator gen = new RandomGeneratorImpl(1234);
 
         StepMonitor monitor = new StepMonitorImpl(numCars);
 
