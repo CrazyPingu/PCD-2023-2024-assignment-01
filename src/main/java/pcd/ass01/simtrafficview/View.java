@@ -19,8 +19,8 @@ public class View extends JFrame {
     private final JCheckBox runWithGuiCheckBox;
     private RoadSimView view;
 
-    public View() {
-        super();
+    public View(String windowTitle) {
+        super(windowTitle);
         threadFlag = new ExecutionFlag(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(800, 200);
@@ -28,10 +28,12 @@ public class View extends JFrame {
 
 
         startButton = new JButton("Start");
+        startButton.setEnabled(true);
         settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
 
 
         stopButton = new JButton("Stop");
+        stopButton.setEnabled(false);
         settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
 
         JLabel stepLabel = new JLabel("Step:");
@@ -48,13 +50,15 @@ public class View extends JFrame {
         selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
         settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
 
-        stopButton.setEnabled(false);
+
         startButton.addActionListener(e -> startSimulation());
         stopButton.addActionListener(e -> stopSimulation());
         runWithGuiCheckBox.addActionListener(e -> {
             if (runWithGuiCheckBox.isSelected()) {
+                this.setTitle(windowTitle);
                 settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
             } else {
+                this.setTitle("");
                 settingsPage.remove(selectedSimulationComboBox);
             }
             settingsPage.revalidate();
@@ -66,7 +70,6 @@ public class View extends JFrame {
         pack();
         setVisible(true);
     }
-
 
     private void startSimulation() {
         threadFlag.set(true);
