@@ -5,9 +5,11 @@ import pcd.ass01.simtrafficexamples.RoadSimStatistics;
 import pcd.ass01.simtrafficexamples.RoadSimView;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.NumberFormat;
 
 /**
  * Class to handle the view of the simulation
@@ -15,8 +17,8 @@ import java.awt.event.WindowEvent;
 public class View extends JFrame {
     private final JButton startButton;
     private final JButton stopButton;
-    private final JTextField nStepField;
-    private final JTextField seedField;
+    private final JFormattedTextField nStepField;
+    private final JFormattedTextField seedField;
     private final ExecutionFlag threadFlag;
     private final JComboBox<SimulationType> selectedSimulationComboBox;
     private final JCheckBox runWithGuiCheckBox;
@@ -29,8 +31,18 @@ public class View extends JFrame {
 
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
-        nStepField = new JTextField("10000");
-        seedField = new JTextField("4321");
+
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(1);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+
+        nStepField = new JFormattedTextField(formatter);
+        nStepField.setValue(1000);
+        seedField = new JFormattedTextField(formatter);
+        seedField.setValue(4321);
         runWithGuiCheckBox = new JCheckBox("Start simulation with GUI");
         selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
 
@@ -82,11 +94,12 @@ public class View extends JFrame {
 
         new Thread(() -> {
             SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
-            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false, Integer.parseInt(seedField.getText()));
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false, (Integer) seedField.getValue());
             if (simulation != null) {
                 simulation.setup();
-                simulation.run(Integer.parseInt(nStepField.getText()));
-                showDialog(selectedOption.toString(), "Completed in " + simulation.getSimulationDuration()
+                simulation.run((Integer) nStepField.getValue());
+                showDialog(selectedOption.toString(),
+                        "Completed in " + simulation.getSimulationDuration()
                         + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
                 stopSimulation();
             } else {
@@ -106,7 +119,7 @@ public class View extends JFrame {
 
         new Thread(() -> {
             SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
-            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true, Integer.parseInt(seedField.getText()));
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true, (Integer) seedField.getValue());
             if (simulation != null) {
                 simulation.setup();
                 view = new RoadSimView();
@@ -124,7 +137,7 @@ public class View extends JFrame {
                 simulation.addSimulationListener(new RoadSimStatistics());
                 simulation.addSimulationListener(view);
 
-                simulation.run(Integer.parseInt(nStepField.getText()));
+                simulation.run((Integer) nStepField.getValue());
             } else {
                 // Handle case where simulation is not found
                 System.out.println("Selected simulation not found.");

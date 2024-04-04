@@ -49,7 +49,7 @@ public abstract class AbstractSimulation {
 	}
 
 	protected AbstractSimulation(ExecutionFlag threadFlag) {
-		this(threadFlag, 1234);
+		this(threadFlag, 4321);
 	}
 	
 	/**
