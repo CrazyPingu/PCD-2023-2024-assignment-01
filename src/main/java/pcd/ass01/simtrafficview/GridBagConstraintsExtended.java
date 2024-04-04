@@ -2,6 +2,9 @@ package pcd.ass01.simtrafficview;
 
 import java.awt.*;
 
+/**
+ * Class to extend the GridBagConstraints class adding more constructors
+ */
 public class GridBagConstraintsExtended extends GridBagConstraints {
 
     GridBagConstraintsExtended(int gridx, int gridy) {
@@ -16,7 +19,7 @@ public class GridBagConstraintsExtended extends GridBagConstraints {
         this.insets = insets;
     }
 
-    GridBagConstraintsExtended(int gridx, int gridy, int anchor, int gridwidth){
+    GridBagConstraintsExtended(int gridx, int gridy, int anchor, int gridwidth) {
         this(gridx, gridy);
         this.anchor = anchor;
         this.gridwidth = gridwidth;

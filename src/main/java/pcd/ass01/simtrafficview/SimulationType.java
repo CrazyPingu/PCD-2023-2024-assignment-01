@@ -7,6 +7,9 @@ import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadMas
 import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadSeveralCars;
 import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationWithCrossRoads;
 
+/**
+ * Enum to represent the type of simulation
+ */
 public enum SimulationType {
 
     TRAFFIC_SIMULATION_WITH_LIGHTS("Traffic Simulation Single Road With Traffic Light (Two Cars)") {
@@ -31,7 +34,7 @@ public enum SimulationType {
     },
     CONCURRENT_SIMULATION_SINGLE_ROAD_MASSIVE_NUMBER_OF_CARS("Concurrent Traffic Simulation Single Road Massive Number Of Cars") {
         public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
-            return new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100, threadFlag, guiEnabled);
+            return new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(5000, threadFlag, guiEnabled);
         }
     };
 
@@ -41,6 +44,13 @@ public enum SimulationType {
         this.displayName = displayName;
     }
 
+    /**
+     * Create the simulation
+     *
+     * @param threadFlag the flag to stop the simulation
+     * @param guiEnabled if the GUI must be shown or not
+     * @return the simulation
+     */
     public abstract AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled);
 
     @Override

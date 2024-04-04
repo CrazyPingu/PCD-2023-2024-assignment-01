@@ -9,8 +9,10 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Class to handle the view of the simulation
+ */
 public class View extends JFrame {
-
     private final JButton startButton;
     private final JButton stopButton;
     private final JTextField nStepField;
@@ -23,31 +25,35 @@ public class View extends JFrame {
         super(windowTitle);
         threadFlag = new ExecutionFlag(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(800, 200);
-        JPanel settingsPage = new JPanel(new GridBagLayout());
-
 
         startButton = new JButton("Start");
-        startButton.setEnabled(true);
-        settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
-
-
         stopButton = new JButton("Stop");
-        stopButton.setEnabled(false);
-        settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
-
-        JLabel stepLabel = new JLabel("Step:");
-        settingsPage.add(stepLabel, new GridBagConstraintsExtended(1, 1, GridBagConstraints.EAST, 1));
-
         nStepField = new JTextField("10000");
-        nStepField.setPreferredSize(new Dimension(70, 20));
-        settingsPage.add(nStepField, new GridBagConstraintsExtended(2, 1, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
-
         runWithGuiCheckBox = new JCheckBox("Start simulation with GUI");
-        runWithGuiCheckBox.setSelected(true);
-        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 2, GridBagConstraints.CENTER, 2));
-
         selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
+
+        add(createPanel());
+        pack();
+        setVisible(true);
+    }
+
+    /**
+     * Create the panel with the settings for the simulation
+     *
+     * @return the panel with the settings
+     */
+    private JPanel createPanel() {
+        JPanel settingsPage = new JPanel(new GridBagLayout());
+        startButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        JLabel stepLabel = new JLabel("Step:");
+        nStepField.setPreferredSize(new Dimension(70, 20));
+        runWithGuiCheckBox.setSelected(true);
+        settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
+        settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
+        settingsPage.add(stepLabel, new GridBagConstraintsExtended(1, 1, GridBagConstraints.EAST, 1));
+        settingsPage.add(nStepField, new GridBagConstraintsExtended(2, 1, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
+        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 2, GridBagConstraints.CENTER, 2));
         settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
 
 
@@ -57,11 +63,12 @@ public class View extends JFrame {
         });
         stopButton.addActionListener(e -> stopSimulation());
 
-        add(settingsPage);
-        pack();
-        setVisible(true);
+        return settingsPage;
     }
 
+    /**
+     * Start the simulation without the GUI, results will be shown in a dialog
+     */
     private void startSimulationWithoutGui() {
         threadFlag.set(true);
         switchButtonState();
@@ -72,7 +79,7 @@ public class View extends JFrame {
             if (simulation != null) {
                 simulation.setup();
                 simulation.run(Integer.parseInt(nStepField.getText()));
-                showDialog(selectedOption.toString() ,"Completed in " + simulation.getSimulationDuration()
+                showDialog(selectedOption.toString(), "Completed in " + simulation.getSimulationDuration()
                         + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
                 stopSimulation();
             } else {
@@ -83,6 +90,9 @@ public class View extends JFrame {
 
     }
 
+    /**
+     * Start the simulation with the GUI
+     */
     private void startSimulationWithGui() {
         threadFlag.set(true);
         switchButtonState();
@@ -115,6 +125,12 @@ public class View extends JFrame {
         }).start();
     }
 
+    /**
+     * Show a dialog with the given title and message
+     *
+     * @param title the title of the dialog
+     * @param message the message shown inside the dialog
+     */
     private void showDialog(String title, String message) {
         JDialog dialog = new JDialog();
         dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -127,11 +143,17 @@ public class View extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Switch the state of the start and stop buttons
+     */
     private void switchButtonState() {
         startButton.setEnabled(!startButton.isEnabled());
         stopButton.setEnabled(!stopButton.isEnabled());
     }
 
+    /**
+     * Stop the simulation
+     */
     private void stopSimulation() {
         threadFlag.set(false);
         if (view != null) {
