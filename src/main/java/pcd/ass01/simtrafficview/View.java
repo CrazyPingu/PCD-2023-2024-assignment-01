@@ -5,6 +5,7 @@ import pcd.ass01.simtrafficexamples.RoadSimStatistics;
 import pcd.ass01.simtrafficexamples.RoadSimView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -14,38 +15,58 @@ public class View extends JFrame {
     private final JButton stopButton;
     private final JTextField nStepField;
     private final ExecutionFlag threadFlag;
-    private RoadSimView view;
     private final JComboBox<SimulationType> selectedSimulationComboBox;
+    private final JCheckBox runWithGuiCheckBox;
+    private RoadSimView view;
 
     public View() {
-        super("SimTraffic");
+        super();
         threadFlag = new ExecutionFlag(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(700, 200);
-
-        JPanel settingsPage = new JPanel();
+        setSize(800, 200);
+        JPanel settingsPage = new JPanel(new GridBagLayout());
 
 
         startButton = new JButton("Start");
-        settingsPage.add(startButton);
+        settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
+
 
         stopButton = new JButton("Stop");
-        settingsPage.add(stopButton);
+        settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
+
+        JLabel stepLabel = new JLabel("Step:");
+        settingsPage.add(stepLabel, new GridBagConstraintsExtended(1, 1, GridBagConstraints.EAST, 1));
 
         nStepField = new JTextField("10000");
-        nStepField.setColumns(5);
+        nStepField.setPreferredSize(new Dimension(70, 20));
+        settingsPage.add(nStepField, new GridBagConstraintsExtended(2, 1, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
 
-        settingsPage.add(nStepField);
+        runWithGuiCheckBox = new JCheckBox("Start simulation with GUI");
+        runWithGuiCheckBox.setSelected(true);
+        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 2, GridBagConstraints.CENTER, 2));
+
         selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
-        settingsPage.add(selectedSimulationComboBox);
+        settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
 
         stopButton.setEnabled(false);
         startButton.addActionListener(e -> startSimulation());
         stopButton.addActionListener(e -> stopSimulation());
+        runWithGuiCheckBox.addActionListener(e -> {
+            if (runWithGuiCheckBox.isSelected()) {
+                settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
+            } else {
+                settingsPage.remove(selectedSimulationComboBox);
+            }
+            settingsPage.revalidate();
+            settingsPage.repaint();
+            pack();
+        });
 
         add(settingsPage);
+        pack();
         setVisible(true);
     }
+
 
     private void startSimulation() {
         threadFlag.set(true);
