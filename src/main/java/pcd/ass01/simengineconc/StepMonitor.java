@@ -34,12 +34,4 @@ public interface StepMonitor {
      */
     void waitAgentsStep(Callback action) throws InterruptedException;
 
-    /**
-     *
-     * Notify all agents.
-     *
-     * @throws InterruptedException
-     */
-    void notifyAllAgents() throws InterruptedException;
-
 }

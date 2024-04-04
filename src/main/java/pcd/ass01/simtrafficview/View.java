@@ -68,7 +68,7 @@ public class View extends JFrame {
             simulationThread = new Thread(() -> {
                 AbstractSimulation simulation = getSimulation(Objects.requireNonNull(selectedSimulation.getSelectedItem()).toString());
 //                TODO ! setup should be set to public to work, better change the line above for best practice from AbstractSimulation to ????
-                simulation.setup();
+//                simulation.setup();
 
                 view = new RoadSimView();
                 // Close the simulation when the window is closed
