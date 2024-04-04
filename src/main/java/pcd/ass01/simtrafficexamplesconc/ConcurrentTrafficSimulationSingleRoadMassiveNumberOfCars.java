@@ -16,14 +16,16 @@ import pcd.ass01.utils.RandomGeneratorImpl;
 public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends ConcurrentAbstractSimulation {
 
     private int numCars;
+    private boolean guiEnabled;
 
-    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars, ExecutionFlag threadFlag) {
+    public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars, ExecutionFlag threadFlag, boolean guiEnabled) {
         super(threadFlag);
         this.numCars = numCars;
+        this.guiEnabled = guiEnabled;
     }
 
     public ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(int numCars) {
-        this(numCars, new ExecutionFlag(true));
+        this(numCars, new ExecutionFlag(true), false);
     }
 
 
@@ -58,7 +60,8 @@ public class ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars extends Co
             this.addAgent(car);
 
             /* no sync with wall-time */
-           this.syncWithTime(25);
+            if(guiEnabled)
+                this.syncWithTime(25);
         }
 
     }

@@ -2,7 +2,6 @@ package pcd.ass01.simtrafficexamplesconc;
 
 import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simtrafficbase.RoadsEnv;
-import pcd.ass01.simtrafficview.ExecutionFlag;
 import pcd.ass01.utils.RoadEnvAnalyzer;
 
 public class RunConcurrentTrafficSimulationMassiveTest {
@@ -12,7 +11,7 @@ public class RunConcurrentTrafficSimulationMassiveTest {
         int numCars = 5000;
         int nSteps = 100;
 
-        ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars, new ExecutionFlag(true));
+        ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars);
         simulation.setup();
 
         log("Running the simulation: " + numCars + " cars, for " + nSteps + " steps ...");

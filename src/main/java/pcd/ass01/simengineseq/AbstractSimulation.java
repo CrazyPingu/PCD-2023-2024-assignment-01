@@ -49,7 +49,7 @@ public abstract class AbstractSimulation {
 	 * Method used to configure the simulation, specifying env and agents
 	 * 
 	 */
-	protected abstract void setup();
+	public abstract void setup();
 	
 	/**
 	 * Method running the simulation for a number of steps,

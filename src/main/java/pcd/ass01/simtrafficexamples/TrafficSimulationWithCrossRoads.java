@@ -8,12 +8,15 @@ import java.util.Random;
 
 public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 
+    private boolean guiEnabled = false;
+
     public TrafficSimulationWithCrossRoads() {
-        this(new ExecutionFlag(true));
+        this(new ExecutionFlag(true), false);
     }
 
-    public TrafficSimulationWithCrossRoads(ExecutionFlag threadFlag) {
+    public TrafficSimulationWithCrossRoads(ExecutionFlag threadFlag, boolean guiEnabled) {
         super(threadFlag);
+        this.guiEnabled = guiEnabled;
     }
 
     public void setup() {
@@ -45,7 +48,7 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
         CarAgent car4 = new CarAgentExtended("car-4", env, r2, 100, 0.1, 0.1, 4);
         this.addAgent(car4);
 
-
-        this.syncWithTime(25);
+        if (guiEnabled)
+            this.syncWithTime(25);
     }
 }

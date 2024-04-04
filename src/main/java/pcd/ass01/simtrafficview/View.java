@@ -51,36 +51,46 @@ public class View extends JFrame {
         settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
 
 
-        startButton.addActionListener(e -> startSimulation());
-        stopButton.addActionListener(e -> stopSimulation());
-        runWithGuiCheckBox.addActionListener(e -> {
-            if (runWithGuiCheckBox.isSelected()) {
-                this.setTitle(windowTitle);
-                settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 3, GridBagConstraints.CENTER, 99));
-            } else {
-                this.setTitle("");
-                settingsPage.remove(selectedSimulationComboBox);
-            }
-            settingsPage.revalidate();
-            settingsPage.repaint();
-            pack();
+        startButton.addActionListener(e -> {
+            if (runWithGuiCheckBox.isSelected()) startSimulationWithGui();
+            else startSimulationWithoutGui();
         });
+        stopButton.addActionListener(e -> stopSimulation());
 
         add(settingsPage);
         pack();
         setVisible(true);
     }
 
-    private void startSimulation() {
+    private void startSimulationWithoutGui() {
         threadFlag.set(true);
-        startButton.setEnabled(false);
-        stopButton.setEnabled(true);
+        switchButtonState();
 
-        Thread simulationThread = new Thread(() -> {
+        new Thread(() -> {
             SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
-            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag);
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false);
             if (simulation != null) {
-                // TODO ! setup should be set to public to work, better change the line above for best
+                simulation.setup();
+                simulation.run(Integer.parseInt(nStepField.getText()));
+                showDialog(selectedOption.toString() ,"Completed in " + simulation.getSimulationDuration()
+                        + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+                stopSimulation();
+            } else {
+                // Handle case where simulation is not found
+                System.out.println("Selected simulation not found.");
+            }
+        }).start();
+
+    }
+
+    private void startSimulationWithGui() {
+        threadFlag.set(true);
+        switchButtonState();
+
+        new Thread(() -> {
+            SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true);
+            if (simulation != null) {
                 simulation.setup();
                 view = new RoadSimView();
                 view.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -102,16 +112,32 @@ public class View extends JFrame {
                 // Handle case where simulation is not found
                 System.out.println("Selected simulation not found.");
             }
-        });
+        }).start();
+    }
 
-        simulationThread.start();
+    private void showDialog(String title, String message) {
+        JDialog dialog = new JDialog();
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        dialog.setTitle(title);
+        JLabel label = new JLabel(message);
+        label.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        dialog.add(label);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private void switchButtonState() {
+        startButton.setEnabled(!startButton.isEnabled());
+        stopButton.setEnabled(!stopButton.isEnabled());
     }
 
     private void stopSimulation() {
         threadFlag.set(false);
-        view.dispose();
-        startButton.setEnabled(true);
-        stopButton.setEnabled(false);
+        if (view != null) {
+            view.dispose();
+        }
+        switchButtonState();
     }
 
 }

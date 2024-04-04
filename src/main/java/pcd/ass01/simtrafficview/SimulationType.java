@@ -10,28 +10,28 @@ import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationWithCrossRoad
 public enum SimulationType {
 
     TRAFFIC_SIMULATION_WITH_LIGHTS("Traffic Simulation Single Road With Traffic Light (Two Cars)") {
-        public AbstractSimulation createSimulation(ExecutionFlag threadFlag) {
-            return new TrafficSimulationSingleRoadWithTrafficLightTwoCars(threadFlag);
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
+            return new TrafficSimulationSingleRoadWithTrafficLightTwoCars(threadFlag, guiEnabled);
         }
     },
     TRAFFIC_SIMULATION_WITH_CROSSROADS("Traffic Simulation With Crossroads") {
-        public AbstractSimulation createSimulation(ExecutionFlag threadFlag) {
-            return new TrafficSimulationWithCrossRoads(threadFlag);
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
+            return new TrafficSimulationWithCrossRoads(threadFlag, guiEnabled);
         }
     },
     CONCURRENT_SIMULATION_WITH_CROSSROADS("Concurrent Traffic Simulation With Crossroads") {
-        public AbstractSimulation createSimulation(ExecutionFlag threadFlag) {
-            return new ConcurrentTrafficSimulationWithCrossRoads(threadFlag);
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
+            return new ConcurrentTrafficSimulationWithCrossRoads(threadFlag, guiEnabled);
         }
     },
     CONCURRENT_SIMULATION_SINGLE_ROAD_SEVERAL_CARS("Concurrent Traffic Simulation Single Road Several Cars") {
-        public AbstractSimulation createSimulation(ExecutionFlag threadFlag) {
-            return new ConcurrentTrafficSimulationSingleRoadSeveralCars(threadFlag);
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
+            return new ConcurrentTrafficSimulationSingleRoadSeveralCars(threadFlag, guiEnabled);
         }
     },
     CONCURRENT_SIMULATION_SINGLE_ROAD_MASSIVE_NUMBER_OF_CARS("Concurrent Traffic Simulation Single Road Massive Number Of Cars") {
-        public AbstractSimulation createSimulation(ExecutionFlag threadFlag) {
-            return new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100, threadFlag);
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled) {
+            return new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100, threadFlag, guiEnabled);
         }
     };
 
@@ -41,7 +41,7 @@ public enum SimulationType {
         this.displayName = displayName;
     }
 
-    public abstract AbstractSimulation createSimulation(ExecutionFlag threadFlag);
+    public abstract AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled);
 
     @Override
     public String toString() {
