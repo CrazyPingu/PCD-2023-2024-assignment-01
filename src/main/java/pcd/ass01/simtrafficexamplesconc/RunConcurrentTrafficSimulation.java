@@ -31,9 +31,7 @@ public class RunConcurrentTrafficSimulation {
 
 		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
 
-		Verify.beginAtomic();
 		simulation.run(nSteps);
-		Verify.endAtomic();
 
 		long d = simulation.getSimulationDuration();
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");

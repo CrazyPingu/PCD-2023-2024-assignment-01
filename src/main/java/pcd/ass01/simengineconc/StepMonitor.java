@@ -27,11 +27,8 @@ public interface StepMonitor {
 
     /**
      *
-     * Wait for the end of the current step by all agents and do an action.
+     * Signal all agents to proceed.
      *
-     * @param action the action to be executed after the end of the step by all agents
-     * @throws InterruptedException
      */
-    void waitAgentsStep(Callback action) throws InterruptedException;
-
+    void signalAllAgents();
 }

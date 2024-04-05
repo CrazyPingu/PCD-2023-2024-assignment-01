@@ -1,9 +1,9 @@
 package pcd.ass01.simengineconc;
 
+import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractAgent;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficconc.CarAgentThread;
-import pcd.ass01.simtrafficconc.EnvThread;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
 import java.util.ArrayList;
@@ -48,43 +48,55 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         timePerStep = 0;
         nSteps = 0;
 
-        Thread envThread = new EnvThread(env, dt, numSteps, threadFlag);
+        Verify.beginAtomic();
 
         for (Thread thread : agentsThreads) {
             thread.start();
         }
 
-        while (nSteps < numSteps && threadFlag.get()) {
+        Thread simulationThread = createSimulationThread(numSteps, monitor);
 
-            currentWallTime = System.currentTimeMillis();
+        /* start simulation */
+        simulationThread.start();
 
-            // start env thread
-            if (nSteps == 0) {
-                envThread.start();
-            }
-
-            try {
-                monitor.waitAgentsStep(() -> {
-                    t += dt;
-
-                    env.processActions();
-
-                    notifyNewStep(t, agents, env);
-
-                    nSteps++;
-                    timePerStep += System.currentTimeMillis() - currentWallTime;
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (toBeInSyncWithWallTime) {
-                syncWithWallTime();
-            }
+        /* wait simulation to end */
+        try {
+            simulationThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        Verify.endAtomic();
 
         endWallTime = System.currentTimeMillis();
         this.averageTimePerStep = timePerStep / numSteps;
+    }
+
+    private Thread createSimulationThread(int numSteps, StepMonitor monitor) {
+        Thread simulationThread = new Thread(() -> {
+            while (nSteps < numSteps && threadFlag.get()) {
+
+                currentWallTime = System.currentTimeMillis();
+
+                env.step(dt);
+
+                t += dt;
+
+                env.processActions();
+
+                notifyNewStep(t, agents, env);
+
+                nSteps++;
+                timePerStep += System.currentTimeMillis() - currentWallTime;
+
+                if (toBeInSyncWithWallTime) {
+                    syncWithWallTime();
+                }
+            }
+            monitor.signalAllAgents();
+        });
+
+        return simulationThread;
     }
 
 }

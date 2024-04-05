@@ -7,7 +7,7 @@ public class RunTrafficSimulationMassiveTest {
 
 	public static void main(String[] args) {		
 
-		int numCars = 50;
+		int numCars = 5000;
 		int nSteps = 100;
 		
 		TrafficSimulationSingleRoadMassiveNumberOfCars simulation = new TrafficSimulationSingleRoadMassiveNumberOfCars(numCars);

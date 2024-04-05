@@ -8,17 +8,15 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 
     public static void main(String[] args) {
 
-        int numCars = 3;
-        int nSteps = 5;
+        int numCars = 5000;
+        int nSteps = 100;
 
         ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(numCars);
         simulation.setup();
 
         log("Running the simulation: " + numCars + " cars, for " + nSteps + " steps ...");
 
-        Verify.beginAtomic();
         simulation.run(nSteps);
-        Verify.endAtomic();
 
         long d = simulation.getSimulationDuration();
         log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");

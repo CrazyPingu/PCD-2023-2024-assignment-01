@@ -11,18 +11,15 @@ public class StepMonitorImpl implements StepMonitor {
 
     private final int numberOfAgents;
     private int count;
-    private boolean continueFlagAgent, continueFlagEnv, continueFlagAll;
     private final Lock mutex;
-    private final Condition agentsStep, envStep, agentsStepAll;
+    private final Condition agentsStep, envStep;
 
     public StepMonitorImpl(int numberOfAgents) {
         this.numberOfAgents = numberOfAgents + 1;
-        count = 0;
+        count = this.numberOfAgents;
         mutex = new ReentrantLock();
         agentsStep = mutex.newCondition();
         envStep = mutex.newCondition();
-        agentsStepAll = mutex.newCondition();
-        continueFlagAgent = continueFlagEnv = continueFlagAll = false;
     }
 
     @Override
@@ -30,22 +27,16 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             mutex.lock();
 
-            while (count == 0 || count >= numberOfAgents) {
+            while (count >= numberOfAgents) {
                 envStep.signal();
                 agentsStep.await();
             }
-            continueFlagAgent = false;
             selectedAction.call();
-            count++;
-            while (count < numberOfAgents || !continueFlagAgent) {
-                if (count == numberOfAgents) {
-                    continueFlagAll = true;
-                }
-                agentsStepAll.signal();
-                agentsStep.await();
+            count--;
+            if (count <= 0) {
+                envStep.signal();
             }
-            continueFlagEnv = true;
-            envStep.signal();
+            agentsStep.await();
 
         } finally {
             mutex.unlock();
@@ -58,17 +49,12 @@ public class StepMonitorImpl implements StepMonitor {
             mutex.lock();
 
             step.call();
-            count++;
-            while (count < numberOfAgents) {
+            count--;
+            while (count > 0) {
                 agentsStep.signalAll();
                 envStep.await();
             }
-            continueFlagEnv = false;
-            while (!continueFlagEnv) {
-                agentsStep.signalAll();
-                envStep.await();
-            }
-            count = 0;
+            count = this.numberOfAgents;
 
         } finally {
             mutex.unlock();
@@ -76,17 +62,11 @@ public class StepMonitorImpl implements StepMonitor {
     }
 
     @Override
-    public void waitAgentsStep(Callback action) throws InterruptedException {
+    public void signalAllAgents() {
         try {
             mutex.lock();
 
-            while (!continueFlagAll) {
-                agentsStepAll.await();
-            }
-            action.call();
-            continueFlagAgent = true;
-            continueFlagAll = false;
-            envStep.signal();
+            agentsStep.signalAll();
 
         } finally {
             mutex.unlock();
