@@ -7,10 +7,7 @@ import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadWithTrafficLightT
 import pcd.ass01.simtrafficexamples.TrafficSimulationWithCrossRoads;
 import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadMassiveNumberOfCars;
 
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadSeveralCars;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationWithCrossRoads;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars;
+import pcd.ass01.simtrafficexamplesconc.*;
 
 /**
  * Enum to represent the type of simulation
@@ -61,6 +58,11 @@ public enum SimulationType {
     CONCURRENT_SIMULATION_SINGLE_ROAD_WITH_LIGHTS("Concurrent Traffic Simulation Single Road With Traffic Light (Two Cars)") {
         public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
             return new ConcurrentTrafficSimulationSingleRoadWithTrafficLightTwoCars(threadFlag, guiEnabled, seed);
+        }
+    },
+    CONCURRENT_TRAFFIC_SIMULATION_MULTIPLE_ROADS_WITH_CROSSROADS("Concurrent Traffic Simulation Multiple Roads With Crossroads") {
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+            return new ConcurrentTrafficSimulationMultipleRoadsWithCrossroads(threadFlag, guiEnabled, seed);
         }
     };
 
