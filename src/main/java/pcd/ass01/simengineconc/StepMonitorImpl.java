@@ -80,12 +80,12 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             mutex.lock();
 
-            continueFlagAll = false;
             while (!continueFlagAll) {
                 agentsStepAll.await();
             }
             action.call();
             continueFlagAgent = true;
+            continueFlagAll = false;
             envStep.signal();
 
         } finally {
