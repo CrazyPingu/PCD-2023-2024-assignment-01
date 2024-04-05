@@ -11,7 +11,7 @@ public class StepMonitorImpl implements StepMonitor {
 
     private final int numberOfAgents;
     private int count;
-    private boolean continueFlagAgent, continueFlagEnv;
+    private boolean continueFlagAgent, continueFlagEnv, continueFlagAll;
     private final Lock mutex;
     private final Condition agentsStep, envStep, agentsStepAll;
 
@@ -22,7 +22,7 @@ public class StepMonitorImpl implements StepMonitor {
         agentsStep = mutex.newCondition();
         envStep = mutex.newCondition();
         agentsStepAll = mutex.newCondition();
-        continueFlagAgent = continueFlagEnv = false;
+        continueFlagAgent = continueFlagEnv = continueFlagAll = false;
     }
 
     @Override
@@ -38,6 +38,9 @@ public class StepMonitorImpl implements StepMonitor {
             selectedAction.call();
             count++;
             while (count < numberOfAgents || !continueFlagAgent) {
+                if (count == numberOfAgents) {
+                    continueFlagAll = true;
+                }
                 agentsStepAll.signal();
                 agentsStep.await();
             }
@@ -55,14 +58,13 @@ public class StepMonitorImpl implements StepMonitor {
             mutex.lock();
 
             step.call();
-
             count++;
             while (count < numberOfAgents) {
                 agentsStep.signalAll();
                 envStep.await();
             }
             continueFlagEnv = false;
-            while (count != 0 && !continueFlagEnv) {
+            while (!continueFlagEnv) {
                 agentsStep.signalAll();
                 envStep.await();
             }
@@ -78,33 +80,17 @@ public class StepMonitorImpl implements StepMonitor {
         try {
             mutex.lock();
 
-            while (count < numberOfAgents || continueFlagAgent) {
+            while (!continueFlagAll) {
                 agentsStepAll.await();
             }
             action.call();
             continueFlagAgent = true;
+            continueFlagAll = false;
             envStep.signal();
 
         } finally {
             mutex.unlock();
         }
     }
-
-    @Override
-    public void notifyAllAgents() {
-        try {
-            mutex.lock();
-
-            continueFlagEnv = true;
-            continueFlagAgent = true;
-            agentsStep.signalAll();
-            envStep.signalAll();
-            agentsStepAll.signalAll();
-
-        } finally {
-            mutex.unlock();
-        }
-    }
-
 
 }
