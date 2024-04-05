@@ -4,22 +4,20 @@ import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficbase.*;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
-import java.util.Random;
-
 public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
 
+    private boolean guiEnabled = false;
+
     public TrafficSimulationWithCrossRoads() {
-        this(new ExecutionFlag(true));
+        this(new ExecutionFlag(true), false);
     }
 
-    public TrafficSimulationWithCrossRoads(ExecutionFlag threadFlag) {
+    public TrafficSimulationWithCrossRoads(ExecutionFlag threadFlag, boolean guiEnabled) {
         super(threadFlag);
+        this.guiEnabled = guiEnabled;
     }
 
     public void setup() {
-
-        Random gen = new Random(1);
-
         this.setupTimings(0, 1);
 
         RoadsEnv env = new RoadsEnv();
@@ -45,7 +43,7 @@ public class TrafficSimulationWithCrossRoads extends AbstractSimulation {
         CarAgent car4 = new CarAgentExtended("car-4", env, r2, 100, 0.1, 0.1, 4);
         this.addAgent(car4);
 
-
-        this.syncWithTime(25);
+        if (guiEnabled)
+            this.syncWithTime(25);
     }
 }

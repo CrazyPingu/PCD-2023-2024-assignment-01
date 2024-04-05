@@ -1,0 +1,23 @@
+RoadsEnv:
+  Roads:
+    road
+      length: 1500.0
+      from: P2d(0.0,300.0)
+      to: P2d(1500.0,300.0)
+
+  Cars:
+    car-1
+      speed: 4.499999999999716
+      position: 21.499999999998582
+      road from: P2d(0.0,300.0) to: P2d(1500.0,300.0)
+
+    car-2
+      speed: 5.099999999999998
+      position: 71.39999999999995
+      road from: P2d(0.0,300.0) to: P2d(1500.0,300.0)
+
+  TrafficLights:
+    traffic light
+      position: P2d(740.0,300.0)
+      state: GREEN
+

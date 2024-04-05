@@ -8,8 +8,6 @@ import pcd.ass01.simtrafficbase.Road;
 import pcd.ass01.simtrafficbase.RoadsEnv;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
-import java.util.Optional;
-
 /**
  * 
  * Traffic Simulation about 2 cars moving on a single road, no traffic lights
@@ -17,10 +15,17 @@ import java.util.Optional;
  */
 public class TrafficSimulationSingleRoadTwoCars extends AbstractSimulation {
 
+	private boolean guiEnabled = false;
+
 	public TrafficSimulationSingleRoadTwoCars() {
 		super(new ExecutionFlag(true));
 	}
-	
+
+	public TrafficSimulationSingleRoadTwoCars(ExecutionFlag threadFlag, boolean guiEnabled) {
+		super(threadFlag);
+		this.guiEnabled = guiEnabled;
+	}
+
 	public void setup() {
 		
 		int t0 = 0;
@@ -38,7 +43,8 @@ public class TrafficSimulationSingleRoadTwoCars extends AbstractSimulation {
 		this.addAgent(car2);
 		
 		/* sync with wall-time: 25 steps per sec */
-		this.syncWithTime(25);
+		if(guiEnabled)
+			this.syncWithTime(25);
 	}	
 	
 }

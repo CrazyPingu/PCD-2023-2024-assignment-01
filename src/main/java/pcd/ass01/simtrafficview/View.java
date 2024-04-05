@@ -3,81 +3,132 @@ package pcd.ass01.simtrafficview;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficexamples.RoadSimStatistics;
 import pcd.ass01.simtrafficexamples.RoadSimView;
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadWithTrafficLightTwoCars;
-import pcd.ass01.simtrafficexamples.TrafficSimulationWithCrossRoads;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationSingleRoadSeveralCars;
-import pcd.ass01.simtrafficexamplesconc.ConcurrentTrafficSimulationWithCrossRoads;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Objects;
+import java.text.NumberFormat;
 
+/**
+ * Class to handle the view of the simulation
+ */
 public class View extends JFrame {
-
     private final JButton startButton;
     private final JButton stopButton;
-    private final JTextField nStepField;
-    private Thread simulationThread;
+    private final JFormattedTextField nStepField;
+    private final JFormattedTextField seedField;
     private final ExecutionFlag threadFlag;
+    private final JComboBox<SimulationType> selectedSimulationComboBox;
+    private final JCheckBox runWithGuiCheckBox;
     private RoadSimView view;
 
-
-    public View() {
-        super("SimTraffic");
+    public View(String windowTitle) {
+        super(windowTitle);
         threadFlag = new ExecutionFlag(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(700, 200);
 
-        JComboBox<String> selectedSimulation = new JComboBox<>(new String[] {
-            "TrafficSimulationSingleRoadWithTrafficLightTwoCars",
-            "TrafficSimulationWithCrossRoads",
-            "ConcurrentTrafficSimulationWithCrossRoads",
-            "ConcurrentTrafficSimulationSingleRoadSeveralCars",
-            "ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars"
-        });
-
-//        Map<String, AbstractSimulation> simulationsMap = new HashMap<>();
-//       simulationsMap.put("TrafficSimulationSingleRoadWithTrafficLightTwoCars", new TrafficSimulationSingleRoadWithTrafficLightTwoCars(threadFlag));
-//       simulationsMap.put("TrafficSimulationWithCrossRoads", new TrafficSimulationWithCrossRoads(threadFlag));
-//       simulationsMap.put("ConcurrentTrafficSimulationWithCrossRoads", new ConcurrentTrafficSimulationWithCrossRoads(threadFlag));
-//       simulationsMap.put("ConcurrentTrafficSimulationSingleRoadSeveralCars", new ConcurrentTrafficSimulationSingleRoadSeveralCars(threadFlag));
-//       simulationsMap.put("ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars", new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100, threadFlag));
-
-//        JComboBox<String> selectedSimulation = new JComboBox<>(simulationsMap.keySet().toArray(new String[0]));
-
-        JPanel settingsPage = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
-        nStepField = new JTextField("10000");
-        nStepField.setColumns(5);
-        settingsPage.add(startButton);
-        settingsPage.add(stopButton);
-        settingsPage.add(nStepField);
-        settingsPage.add(selectedSimulation);
 
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(1);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+
+        nStepField = new JFormattedTextField(formatter);
+        nStepField.setValue(1000);
+        seedField = new JFormattedTextField(formatter);
+        seedField.setValue(4321);
+        runWithGuiCheckBox = new JCheckBox("Start simulation with GUI");
+        selectedSimulationComboBox = new JComboBox<>(SimulationType.values());
+
+        add(createPanel());
+        pack();
+        setVisible(true);
+    }
+
+    /**
+     * Create the panel with the settings for the simulation
+     *
+     * @return the panel with the settings
+     */
+    private JPanel createPanel() {
+        runWithGuiCheckBox.setSelected(true);
+        JPanel settingsPage = new JPanel(new GridBagLayout());
+        startButton.setEnabled(true);
         stopButton.setEnabled(false);
+        JLabel stepLabel = new JLabel("Step:");
+        nStepField.setPreferredSize(new Dimension(70, 20));
+        JLabel seedLabel = new JLabel("Seed:");
+        seedField.setPreferredSize(new Dimension(70, 20));
+
+        settingsPage.add(startButton, new GridBagConstraintsExtended(1, 0, new Insets(5, 15, 10, 5)));
+        settingsPage.add(stopButton, new GridBagConstraintsExtended(2, 0));
+        settingsPage.add(stepLabel, new GridBagConstraintsExtended(1, 1, GridBagConstraints.EAST, 1));
+        settingsPage.add(nStepField, new GridBagConstraintsExtended(2, 1, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
+        settingsPage.add(seedLabel, new GridBagConstraintsExtended(1, 2, GridBagConstraints.EAST, 1));
+        settingsPage.add(seedField, new GridBagConstraintsExtended(2, 2, GridBagConstraints.WEST, new Insets(5, 5, 10, 20)));
+        settingsPage.add(runWithGuiCheckBox, new GridBagConstraintsExtended(1, 3, GridBagConstraints.CENTER, 2));
+        settingsPage.add(selectedSimulationComboBox, new GridBagConstraintsExtended(0, 4, GridBagConstraints.CENTER, 99));
+
+
         startButton.addActionListener(e -> {
+            if (runWithGuiCheckBox.isSelected()) startSimulationWithGui();
+            else startSimulationWithoutGui();
+        });
+        stopButton.addActionListener(e -> stopSimulation());
 
-            threadFlag.set(true);
-            startButton.setEnabled(false);
-            stopButton.setEnabled(true);
+        return settingsPage;
+    }
 
+    /**
+     * Start the simulation without the GUI, results will be shown in a dialog
+     */
+    private void startSimulationWithoutGui() {
+        threadFlag.set(true);
+        switchButtonState();
 
-            simulationThread = new Thread(() -> {
-                AbstractSimulation simulation = getSimulation(Objects.requireNonNull(selectedSimulation.getSelectedItem()).toString());
-//                TODO ! setup should be set to public to work, better change the line above for best practice from AbstractSimulation to ????
-//                simulation.setup();
+        new Thread(() -> {
+            SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, false, (Integer) seedField.getValue());
+            if (simulation != null) {
+                simulation.setup();
+                simulation.run((Integer) nStepField.getValue());
+                showDialog(selectedOption.toString(),
+                        "Completed in " + simulation.getSimulationDuration()
+                        + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
+                stopSimulation();
+            } else {
+                // Handle case where simulation is not found
+                System.out.println("Selected simulation not found.");
+            }
+        }).start();
 
+    }
+
+    /**
+     * Start the simulation with the GUI
+     */
+    private void startSimulationWithGui() {
+        threadFlag.set(true);
+        switchButtonState();
+
+        new Thread(() -> {
+            SimulationType selectedOption = (SimulationType) selectedSimulationComboBox.getSelectedItem();
+            AbstractSimulation simulation = selectedOption.createSimulation(threadFlag, true, (Integer) seedField.getValue());
+            if (simulation != null) {
+                simulation.setup();
                 view = new RoadSimView();
-                // Close the simulation when the window is closed
                 view.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                 view.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
                         super.windowOpened(e);
-                        stopSimulation(startButton, stopButton);
+                        stopSimulation();
                     }
                 });
                 view.setLocationRelativeTo(null);
@@ -86,48 +137,49 @@ public class View extends JFrame {
                 simulation.addSimulationListener(new RoadSimStatistics());
                 simulation.addSimulationListener(view);
 
-                simulation.run(Integer.parseInt(nStepField.getText()));
-            });
-
-            simulationThread.start();
-        });
-
-        stopButton.addActionListener(e -> {
-            stopSimulation(startButton, stopButton);
-        });
-
-        add(settingsPage);
-        setVisible(true);
+                simulation.run((Integer) nStepField.getValue());
+            } else {
+                // Handle case where simulation is not found
+                System.out.println("Selected simulation not found.");
+            }
+        }).start();
     }
 
+    /**
+     * Show a dialog with the given title and message
+     *
+     * @param title   the title of the dialog
+     * @param message the message shown inside the dialog
+     */
+    private void showDialog(String title, String message) {
+        JDialog dialog = new JDialog();
+        dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        dialog.setTitle(title);
+        JLabel label = new JLabel(message);
+        label.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        dialog.add(label);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
 
-    private void stopSimulation(JButton startButton, JButton stopButton) {
+    /**
+     * Switch the state of the start and stop buttons
+     */
+    private void switchButtonState() {
+        startButton.setEnabled(!startButton.isEnabled());
+        stopButton.setEnabled(!stopButton.isEnabled());
+    }
+
+    /**
+     * Stop the simulation
+     */
+    private void stopSimulation() {
         threadFlag.set(false);
-        view.dispose();
-        startButton.setEnabled(true);
-        stopButton.setEnabled(false);
-    }
-
-    private AbstractSimulation getSimulation(String simulationName){
-        AbstractSimulation simulation = null;
-        switch (simulationName) {
-            case "TrafficSimulationSingleRoadWithTrafficLightTwoCars":
-                simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars(threadFlag);
-                break;
-            case "TrafficSimulationWithCrossRoads":
-                simulation = new TrafficSimulationWithCrossRoads(threadFlag);
-                break;
-            case "ConcurrentTrafficSimulationWithCrossRoads":
-                simulation = new ConcurrentTrafficSimulationWithCrossRoads(threadFlag);
-                break;
-            case "ConcurrentTrafficSimulationSingleRoadSeveralCars":
-                simulation = new ConcurrentTrafficSimulationSingleRoadSeveralCars(threadFlag);
-                break;
-            case "ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars":
-                simulation = new ConcurrentTrafficSimulationSingleRoadMassiveNumberOfCars(100, threadFlag);
-                break;
+        if (view != null) {
+            view.dispose();
         }
-        return simulation;
+        switchButtonState();
     }
-}
 
+}

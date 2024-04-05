@@ -9,12 +9,15 @@ import pcd.ass01.simtrafficview.ExecutionFlag;
  */
 public class TrafficSimulationSingleRoadWithTrafficLightTwoCars extends AbstractSimulation {
 
-    public TrafficSimulationSingleRoadWithTrafficLightTwoCars(ExecutionFlag threadFlag) {
-        super(threadFlag);
-    }
+    private boolean guiEnabled = false;
 
     public TrafficSimulationSingleRoadWithTrafficLightTwoCars() {
-        this(new ExecutionFlag(true));
+        this(new ExecutionFlag(true), false);
+    }
+
+    public TrafficSimulationSingleRoadWithTrafficLightTwoCars(ExecutionFlag threadFlag, boolean guiEnabled) {
+        super(threadFlag);
+        this.guiEnabled = guiEnabled;
     }
 
     public void setup() {
@@ -34,7 +37,9 @@ public class TrafficSimulationSingleRoadWithTrafficLightTwoCars extends Abstract
         CarAgent car2 = new CarAgentExtended("car-2", env, r, 100, 0.1, 0.3, 5);
         this.addAgent(car2);
 
-        this.syncWithTime(25);
+        if (guiEnabled)
+            this.syncWithTime(25);
+
     }
 
 }

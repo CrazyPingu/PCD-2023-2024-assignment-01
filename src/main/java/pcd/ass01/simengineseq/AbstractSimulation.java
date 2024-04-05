@@ -3,6 +3,8 @@ package pcd.ass01.simengineseq;
 import java.util.ArrayList;
 import java.util.List;
 import pcd.ass01.simtrafficview.ExecutionFlag;
+import pcd.ass01.utils.RandomGenerator;
+import pcd.ass01.utils.RandomGeneratorImpl;
 
 /**
  * Base class for defining concrete simulations
@@ -35,13 +37,19 @@ public abstract class AbstractSimulation {
 	protected long endWallTime;
 	protected long averageTimePerStep;
 	protected ExecutionFlag threadFlag;
+	protected RandomGenerator gen;
 
 
-	protected AbstractSimulation(ExecutionFlag threadFlag) {
+	protected AbstractSimulation(ExecutionFlag threadFlag, int randomSeed) {
+		this.gen = new RandomGeneratorImpl(randomSeed);
 		this.threadFlag = threadFlag;
 		agents = new ArrayList<AbstractAgent>();
 		listeners = new ArrayList<SimulationListener>();
 		toBeInSyncWithWallTime = false;
+	}
+
+	protected AbstractSimulation(ExecutionFlag threadFlag) {
+		this(threadFlag, 4321);
 	}
 	
 	/**
@@ -49,7 +57,7 @@ public abstract class AbstractSimulation {
 	 * Method used to configure the simulation, specifying env and agents
 	 * 
 	 */
-	protected abstract void setup();
+	public abstract void setup();
 	
 	/**
 	 * Method running the simulation for a number of steps,
