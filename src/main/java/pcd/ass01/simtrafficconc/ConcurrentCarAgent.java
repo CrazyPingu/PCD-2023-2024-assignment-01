@@ -21,9 +21,7 @@ public abstract class ConcurrentCarAgent extends CarAgent {
         this.monitor = monitor;
     }
 
-    /**
-     * Basic behaviour of a car agent structured into a sense/decide/act structure
-     */
+    @Override
     public void step(int dt) {
 
         /* sense */
