@@ -4,6 +4,7 @@ import gov.nasa.jpf.vm.Verify;
 import pcd.ass01.simengineseq.AbstractAgent;
 import pcd.ass01.simengineseq.AbstractSimulation;
 import pcd.ass01.simtrafficconc.CarAgentThread;
+import pcd.ass01.simtrafficconc.SimulationThread;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
 import java.util.ArrayList;
@@ -48,32 +49,19 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
         timePerStep = 0;
         nSteps = 0;
 
-        Verify.beginAtomic();
-
         for (Thread thread : agentsThreads) {
             thread.start();
         }
 
         Thread simulationThread = createSimulationThread(numSteps, monitor);
 
-        /* start simulation */
+        /* start the effective simulation */
         simulationThread.start();
 
-        /* wait simulation to end */
-        try {
-            simulationThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Verify.endAtomic();
-
-        endWallTime = System.currentTimeMillis();
-        this.averageTimePerStep = timePerStep / numSteps;
     }
 
     private Thread createSimulationThread(int numSteps, StepMonitor monitor) {
-        Thread simulationThread = new Thread(() -> {
+        return new SimulationThread(this, () -> {
             while (nSteps < numSteps && threadFlag.get()) {
 
                 currentWallTime = System.currentTimeMillis();
@@ -94,9 +82,10 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
                 }
             }
             monitor.signalAllAgents();
-        });
 
-        return simulationThread;
+            endWallTime = System.currentTimeMillis();
+            this.averageTimePerStep = timePerStep / numSteps;
+        });
     }
 
 }

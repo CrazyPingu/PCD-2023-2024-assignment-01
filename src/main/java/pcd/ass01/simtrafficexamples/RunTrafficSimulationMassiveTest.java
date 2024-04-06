@@ -21,7 +21,7 @@ public class RunTrafficSimulationMassiveTest {
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
 
 //		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
-		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "seq-single-road-massive.txt");
+		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "test-seq.txt");
 	}
 	
 	private static void log(String msg) {

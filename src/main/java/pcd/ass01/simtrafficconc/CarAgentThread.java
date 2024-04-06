@@ -12,6 +12,7 @@ public class CarAgentThread extends Thread {
     private final ExecutionFlag threadFlag;
 
     public CarAgentThread(AbstractAgent car, int dt, int numberOfSteps, ExecutionFlag threadFlag) {
+        super();
         this.threadFlag = threadFlag;
         this.car = car;
         this.dt = dt;

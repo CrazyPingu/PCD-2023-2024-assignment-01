@@ -14,8 +14,8 @@ public class RunTrafficSimulation {
 
 //		 var simulation = new TrafficSimulationSingleRoadTwoCars();
 //		 TrafficSimulationSingleRoadSeveralCars simulation = new TrafficSimulationSingleRoadSeveralCars();
-		TrafficSimulationSingleRoadWithTrafficLightTwoCars simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
-//		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads();
+//		TrafficSimulationSingleRoadWithTrafficLightTwoCars simulation = new TrafficSimulationSingleRoadWithTrafficLightTwoCars();
+		TrafficSimulationWithCrossRoads simulation = new TrafficSimulationWithCrossRoads();
 		simulation.setup();
 		
 //		RoadSimStatistics stat = new RoadSimStatistics();
@@ -35,7 +35,7 @@ public class RunTrafficSimulation {
 		log("Completed in " + d + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
 
 //		RoadEnvAnalyzer.logEnv((RoadsEnv) simulation.getEnvironment());
-		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "seq-cross-roads.txt");
+		RoadEnvAnalyzer.saveEnvToFile((RoadsEnv) simulation.getEnvironment(), "test-seq.txt");
 	}
 
 	private static void log(String msg) {
