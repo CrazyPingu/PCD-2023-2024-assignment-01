@@ -1,11 +1,7 @@
 package pcd.ass01.simtrafficview;
 
 import pcd.ass01.simengineseq.AbstractSimulation;
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadSeveralCars;
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadTwoCars;
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadWithTrafficLightTwoCars;
-import pcd.ass01.simtrafficexamples.TrafficSimulationWithCrossRoads;
-import pcd.ass01.simtrafficexamples.TrafficSimulationSingleRoadMassiveNumberOfCars;
+import pcd.ass01.simtrafficexamples.*;
 
 import pcd.ass01.simtrafficexamplesconc.*;
 
@@ -40,6 +36,11 @@ public enum SimulationType {
             return new TrafficSimulationSingleRoadMassiveNumberOfCars(5000, threadFlag, guiEnabled, seed);
         }
     },
+    TRAFFIC_SIMULATION_MULTIPLE_CROSSROADS_MASSIVE_NUMBER_OF_CARS("Traffic Simulation Multiple Crossroads Massive Number Of Cars") {
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+            return new TrafficSimulationMultipleCrossroadsMassiveNumberOfCars(threadFlag, guiEnabled, seed);
+        }
+    },
     CONCURRENT_SIMULATION_WITH_CROSSROADS("Concurrent Traffic Simulation With Crossroads") {
         public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
             return new ConcurrentTrafficSimulationWithCrossRoads(threadFlag, guiEnabled, seed);
@@ -63,6 +64,11 @@ public enum SimulationType {
     CONCURRENT_TRAFFIC_SIMULATION_MULTIPLE_ROADS_WITH_CROSSROADS("Concurrent Traffic Simulation Multiple Roads With Crossroads") {
         public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
             return new ConcurrentTrafficSimulationMultipleRoadsWithCrossroads(threadFlag, guiEnabled, seed);
+        }
+    },
+    CONCURRENT_TRAFFIC_SIMULATION_MULTIPLE_CROSSROADS_MASSIVE_NUMBER_OF_CARS("Concurrent Traffic Simulation Multiple Crossroads Massive Number Of Cars") {
+        public AbstractSimulation createSimulation(ExecutionFlag threadFlag, boolean guiEnabled, int seed) {
+            return new ConcurrentTrafficSimulationMultipleCrossroadsMassiveNumberOfCars(threadFlag, guiEnabled, seed);
         }
     };
 

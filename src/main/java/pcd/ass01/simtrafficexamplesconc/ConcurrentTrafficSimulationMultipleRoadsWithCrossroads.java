@@ -8,7 +8,10 @@ import pcd.ass01.simtrafficconc.CarAgentExtended;
 import pcd.ass01.simtrafficconc.ConcurrentRoadsEnv;
 import pcd.ass01.simtrafficview.ExecutionFlag;
 
-
+/**
+ * This class represents a simulation of a traffic system with multiple roads (4) and crossroads (4).
+ * The simulation is concurrent and it is based on the {@link pcd.ass01.simtrafficconc} package.
+ */
 public class ConcurrentTrafficSimulationMultipleRoadsWithCrossroads extends ConcurrentAbstractSimulation {
 
     private boolean guiEnabled = false;
