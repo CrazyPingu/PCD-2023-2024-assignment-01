@@ -53,14 +53,9 @@ public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends Concurrent
             // double initialPos = i*30;
             double initialPos = i * 10;
 
-            double carAcceleration = 1; //  + gen.nextDouble()/2;
-            double carDeceleration = 0.3; //  + gen.nextDouble()/2;
-            double carMaxSpeed = 7; // 4 + gen.nextDouble();
-
-//			if (i == 3) {
-//				carAcceleration = 0.2;
-//				carMaxSpeed = 8;
-//			}
+            double carAcceleration = 1 + gen.nextDouble() / 2;
+            double carDeceleration = 0.3 + gen.nextDouble() / 2;
+            double carMaxSpeed = 4 + gen.nextDouble();
 
             CarAgent car = new CarAgentBasic(carId, env,
                     road,
@@ -73,7 +68,7 @@ public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends Concurrent
         }
 
         if (guiEnabled)
-            this.syncWithTime(5);
+            this.syncWithTime(25);
     }
 }
 	

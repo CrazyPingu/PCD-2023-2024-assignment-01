@@ -20,7 +20,7 @@ public class RunConcurrentTrafficSimulationMassiveTest {
 
         simulation.run(nSteps);
 
-        while (simulation.getSimulationDuration() <= 0) {
+        while (simulation.getSimulationDuration() < 0) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {

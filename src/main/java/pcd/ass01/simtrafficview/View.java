@@ -98,8 +98,17 @@ public class View extends JFrame {
             if (simulation != null) {
                 simulation.setup();
                 simulation.run((Integer) nStepField.getValue());
+                long simDuration = simulation.getSimulationDuration();
+                while (simDuration < 0) {
+                    try {
+                        Thread.sleep(10);
+                        simDuration = simulation.getSimulationDuration();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 showDialog(selectedOption.toString(),
-                        "Completed in " + simulation.getSimulationDuration()
+                        "Completed in " + simDuration
                         + " ms - average time per step: " + simulation.getAverageTimePerCycle() + " ms");
                 stopSimulation();
             } else {
