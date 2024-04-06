@@ -28,7 +28,7 @@ public class RunConcurrentTrafficSimulation {
 //		simulation.addSimulationListener(stat);
 //		simulation.addSimulationListener(view);
 
-		int nSteps = 10000;
+		int nSteps = 100;
 
 		log("Running the simulation: " + ((RoadsEnv) simulation.getEnvironment()).getAgentInfo().size() + " cars, for " + nSteps + " steps ...");
 
