@@ -36,7 +36,7 @@ public class ConcurrentTrafficSimulationSingleRoadSeveralCars extends Concurrent
 
     public void setup() {
 
-        int nCars = 5;
+        int nCars = 30;
 
         StepMonitor monitor = new StepMonitorImpl(nCars);
 
