@@ -61,7 +61,7 @@ public abstract class ConcurrentAbstractSimulation extends AbstractSimulation {
     }
 
     private Thread createSimulationThread(int numSteps, StepMonitor monitor) {
-        return new SimulationThread(this, () -> {
+        return new SimulationThread(() -> {
             while (nSteps < numSteps && threadFlag.get()) {
 
                 currentWallTime = System.currentTimeMillis();
